@@ -1,0 +1,395 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" color-mode=light>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>python面向对象3 - Hexo</title>
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="google" content="notranslate" />
+  
+  <meta name="description" content="一些思考与学习
+属性保护：通过设置双前下划线来设置保护...">
+  <meta name="author" content="Guo tianyu">
+  <link rel="icon" href="/images/icons/favicon-16x16.png" type="image/png" sizes="16x16">
+  <link rel="icon" href="/images/icons/favicon-32x32.png" type="image/png" sizes="32x32">
+  <link rel="apple-touch-icon" href="/images/icons/apple-touch-icon.png" sizes="180x180">
+  <meta rel="mask-icon" href="/images/icons/stun-logo.svg" color="#333333">
+  
+    <meta rel="msapplication-TileImage" content="/images/icons/favicon-144x144.png">
+    <meta rel="msapplication-TileColor" content="#000000">
+  
+
+  
+<link rel="stylesheet" href="/css/style.css">
+
+
+  
+    
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1445822_r673sha78lq.css">
+
+  
+
+  
+    
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css">
+
+  
+
+  
+    
+      
+        
+        
+<link rel="stylesheet" href="https://cdn.bootcss.com/highlight.js/9.18.1/styles/xcode.min.css" name="highlight-style" mode="light">
+
+      
+        
+        
+<link rel="stylesheet" href="https://cdn.bootcss.com/highlight.js/9.18.1/styles/solarized-dark.min.css" name="highlight-style" mode="dark">
+
+      
+  
+
+  <script>
+    var CONFIG = window.CONFIG || {};
+    var ZHAOO = window.ZHAOO || {};
+    CONFIG = {
+      isHome: false,
+      fancybox: true,
+      pjax: false,
+      lazyload: {
+        enable: true,
+        only_post: 'false',
+        loading: '[object Object]'
+      },
+      donate: {
+        enable: true,
+        alipay: 'https://pic.izhaoo.com/alipay.jpg',
+        wechat: 'https://pic.izhaoo.com/wechat.jpg'
+      },
+      galleries: {
+        enable: true
+      },
+      fab: {
+        enable: true,
+        always_show: false
+      },
+      carrier: {
+        enable: true
+      },
+      daovoice: {
+        enable: false
+      },
+      preview: {
+        background: {
+          default: '',
+          api: ''
+        },
+        motto: {
+          default: '我在开了灯的床头下，想问问自己的心啊。',
+          typing: true,
+          api: 'https://v2.jinrishici.com/one.json',
+          data_contents: '["data","content"]'
+        },
+      },
+      qrcode: {
+        enable: true,
+        type: 'url',
+        image: 'https://pic.izhaoo.com/weapp-code.jpg',
+      },
+      toc: {
+        enable: true
+      },
+      scrollbar: {
+        type: 'default'
+      },
+      notification: {
+        enable: false,
+        delay: 4500,
+        list: '',
+        page_white_list: '',
+        page_black_list: ''
+      },
+      search: {
+        enable: false,
+        path: ''
+      }
+    }
+  </script>
+
+  
+
+  
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body class="lock-screen">
+  <div class="loading"></div>
+  
+    
+
+
+  <nav class="navbar">
+    <div class="left">
+      
+        <i class="iconfont iconhome j-navbar-back-home"></i>
+      
+      
+        <i class="iconfont iconqrcode j-navbar-qrcode"></i>
+      
+      
+        <i class="iconfont iconmoono" id="color-toggle" color-toggle="light"></i>
+      
+      
+    </div>
+    <div class="center">python面向对象3</div>
+    <div class="right">
+      <i class="iconfont iconmenu j-navbar-menu"></i>
+    </div>
+    
+      <div id="qrcode-navbar"></div>
+    
+  </nav>
+
+  
+  
+
+<nav class="menu">
+  <div class="menu-container">
+    <div class="menu-close">
+      <i class="iconfont iconbaseline-close-px"></i>
+    </div>
+    <ul class="menu-content"><li class="menu-item">
+        <a href="/ " class="underline "> 首页</a>
+      </li><li class="menu-item">
+        <a href="/galleries/ " class="underline "> 摄影</a>
+      </li><li class="menu-item">
+        <a href="/archives/ " class="underline "> 归档</a>
+      </li><li class="menu-item">
+        <a href="/tags/ " class="underline "> 标签</a>
+      </li><li class="menu-item">
+        <a href="/categories/ " class="underline "> 分类</a>
+      </li><li class="menu-item">
+        <a href="/about/ " class="underline "> 关于</a>
+      </li></ul>
+    
+      <div class="menu-copyright"><p>Powered by <a target="_blank" href="https://hexo.io">Hexo</a>  |  Theme - <a target="_blank" href="https://github.com/izhaoo/hexo-theme-zhaoo">zhaoo</a></p></div>
+    
+  </div>
+</nav>
+  <main id="main">
+  <div class="article-wrap">
+    <div class="row container">
+      <div class="col-xl-3"></div>
+      <div class="col-xl-6"><article class="article">
+  <div class="wrap">
+    <section class="head">
+  <img   class="lazyload" data-original="/images/theme/post-image.jpg" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="  draggable="false">
+  <div class="head-mask">
+    <h1 class="head-title">python面向对象3</h1>
+    <div class="head-info">
+      <span class="post-info-item"><i class="iconfont iconcalendar"></i>七月 15, 2021</span>
+      
+      <span class="post-info-item"><i class="iconfont iconfont-size"></i>2825</span>
+    </div>
+  </div>
+</section>
+    <section class="main">
+      <section class="content">
+        <h3 id="一些思考与学习"><a href="#一些思考与学习" class="headerlink" title="一些思考与学习"></a>一些思考与学习</h3><ol>
+<li>属性保护：通过设置双前下划线来设置保护，保护起来之后就不可以直接访问了。<strong>（但是在可以修改，只是不可以访问；对于继承这个类的新类则不能修改其中的保护内容）</strong></li>
+</ol>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Test</span>:</span><br>    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">__init__</span>(<span class="hljs-params">self, foo</span>):</span><br>        self.__foo = foo<br>        <br>    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">__bar</span>(<span class="hljs-params">self</span>):</span><br>        <span class="hljs-built_in">print</span>(self.__foo)<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;__bar&#x27;</span>)<br><br><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">main</span>():</span><br>    test = Test(<span class="hljs-string">&#x27;hello&#x27;</span>)<br>    test.__bar()<br>    <span class="hljs-comment"># AttributeError: &#x27;Test&#x27; object has no attribute &#x27;__bar&#x27;</span><br>    <span class="hljs-built_in">print</span>(test.__foo)<br>    <span class="hljs-comment"># AttributeError: &#x27;Test&#x27; object has no attribute &#x27;__foo&#x27;</span><br><br><br><span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&quot;__main__&quot;</span>:<br>    main()<br></code></pre></td></tr></table></figure>
+<ol start="2">
+<li>在定义类的时候要注意对应的函数是否有返回值，没有返回值意为修改了但是不告诉你。</li>
+</ol>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">move_to</span>(<span class="hljs-params">self</span>):</span><br>     a = <span class="hljs-built_in">int</span>(<span class="hljs-built_in">input</span>(<span class="hljs-string">&quot;position of x:\n&quot;</span>))<br>     b = <span class="hljs-built_in">int</span>(<span class="hljs-built_in">input</span>(<span class="hljs-string">&quot;position of y:\n&quot;</span>))<br>     self.x = a<br>     self.y = b<br>     <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;the current position of the point is (<span class="hljs-subst">&#123;a&#125;</span>, <span class="hljs-subst">&#123;b&#125;</span>)&quot;</span>)<br></code></pre></td></tr></table></figure>
+<p>如这里偷偷改了“点”这个属性的x和y，但是没有明示出来。</p>
+<ol start="3">
+<li>关于@property。比如我有一个Person类，name属性，外部可以把name属性设定为任意的东西。为了对外部设置加以限制，如不能带有数字这样的要求，我们可以把name属性改为__name禁止从外界直接访问。然后通过创造其他函数来对name进行修改。为了进一步简化，将新的函数直接命名为name，然后进行操作，这样需要在函数前用@property，就可以将name这个方法（函数）直接当成属性来使用。property包含getter和setter两种方法，在定义函数的时候不会名字重复。</li>
+</ol>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Person</span>(<span class="hljs-params"><span class="hljs-built_in">object</span></span>):</span><br><br>    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">__init__</span>(<span class="hljs-params">self, name, age</span>):</span><br>        self._name = name<br>        self._age = age<br><br>    <span class="hljs-comment"># 访问器 - getter方法</span><br><span class="hljs-meta">    @property</span><br>    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">name</span>(<span class="hljs-params">self</span>):</span><br>        <span class="hljs-keyword">return</span> self._name<br><br>    <span class="hljs-comment"># 访问器 - getter方法</span><br><span class="hljs-meta">    @property</span><br>    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">age</span>(<span class="hljs-params">self</span>):</span><br>        <span class="hljs-keyword">return</span> self._age<br><br>    <span class="hljs-comment"># 修改器 - setter方法</span><br><span class="hljs-meta">    @age.setter</span><br>    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">age</span>(<span class="hljs-params">self, age</span>):</span><br>        self._age = age<br><br>    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">play</span>(<span class="hljs-params">self</span>):</span><br>        <span class="hljs-keyword">if</span> self._age &lt;= <span class="hljs-number">16</span>:<br>            <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;%s正在玩飞行棋.&#x27;</span> % self._name)<br>        <span class="hljs-keyword">else</span>:<br>            <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;%s正在玩斗地主.&#x27;</span> % self._name)<br><br><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">main</span>():</span><br>    person = Person(<span class="hljs-string">&#x27;王大锤&#x27;</span>, <span class="hljs-number">12</span>)<br>    person.play()<br>    person.age = <span class="hljs-number">22</span><br>    person.play()<br>    <span class="hljs-comment"># person.name = &#x27;白元芳&#x27;  # AttributeError: can&#x27;t set attribute</span><br><br><br><span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&#x27;__main__&#x27;</span>:<br>    main()<br></code></pre></td></tr></table></figure>
+<ol start="4">
+<li>限定Person对象只能绑定_name, _age和_gender属性</li>
+</ol>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">__slots__ = (<span class="hljs-string">&#x27;_name&#x27;</span>, <span class="hljs-string">&#x27;_age&#x27;</span>, <span class="hljs-string">&#x27;_gender&#x27;</span>)<br></code></pre></td></tr></table></figure>
+<ol start="5">
+<li>类的方法分类：<br>对象方法：给对象发送消息，实例属性属于具体对象，比如gty是person类，gty这个实例的身高体重等性质都是用对象方法创建和修改<br>静态方法：让类里的方法直接被类调用，就像正常调用函数一样，无参数<br>类方法：类方法一般和类属性配合使用。类方法必须有一个cls参数表示这个类，可以直接用类名去调用，可以与类属性交互（类属性就是属于这个类的性质，比如person类都有两个眼睛四条腿）</li>
+</ol>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Person</span>(<span class="hljs-params"><span class="hljs-built_in">object</span></span>):</span><br>    eyes = <span class="hljs-number">2</span><br>    legs = <span class="hljs-number">2</span><br>    toes = <span class="hljs-number">10</span><br><br>    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">__init__</span>(<span class="hljs-params">self, name</span>):</span><br>        self.name = name<br><br><span class="hljs-meta">    @classmethod</span><br>    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">get_inform</span>(<span class="hljs-params">cls</span>):</span>  <span class="hljs-comment"># 主要用于类属性的处理</span><br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;eyes:&quot;</span>, cls.eyes)<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;toes:&quot;</span>, cls.toes)<br><br><span class="hljs-meta">    @staticmethod</span><br>    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">is_good_name</span>(<span class="hljs-params">name</span>):</span>  <span class="hljs-comment"># 把函数当作正常函数来使用</span><br>        <span class="hljs-keyword">if</span> <span class="hljs-built_in">len</span>(name) &gt; <span class="hljs-number">3</span>:<br>            <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;not a good name&quot;</span>)<br>        <span class="hljs-keyword">else</span>:<br>            <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;good name&quot;</span>)<br><br><br>p1 = Person(<span class="hljs-string">&#x27;gty&#x27;</span>)<br>Person.get_inform()<br>p1.is_good_name(<span class="hljs-string">&#x27;gty&#x27;</span>)<br><br><span class="hljs-comment">### output:</span><br>eyes: <span class="hljs-number">2</span><br>toes: <span class="hljs-number">10</span><br>good name<br></code></pre></td></tr></table></figure>
+
+      </section>
+      <section class="extra">
+        
+          <ul class="copyright">
+  
+    <li><strong>本文作者：</strong>Guo tianyu</li>
+    <li><strong>本文链接：</strong><a href="https://guotianyu-2020.github.io/2021/07/15/python%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A13/index.html" title="https:&#x2F;&#x2F;guotianyu-2020.github.io&#x2F;2021&#x2F;07&#x2F;15&#x2F;python%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A13&#x2F;index.html">https:&#x2F;&#x2F;guotianyu-2020.github.io&#x2F;2021&#x2F;07&#x2F;15&#x2F;python%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A13&#x2F;index.html</a></li>
+    <li><strong>版权声明：</strong>本博客所有文章均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" title="BY-NC-SA" target="_blank" rel="noopener">BY-NC-SA</a> 许可协议，转载请注明出处！</li>
+  
+</ul>
+        
+        
+          <section class="donate">
+  <div id="qrcode-donate">
+    <img   class="lazyload" data-original="https://pic.izhaoo.com/alipay.jpg" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" >
+  </div>
+  <div class="icon">
+    <a href="javascript:;" id="alipay"><i class="iconfont iconalipay"></i></a>
+    <a href="javascript:;" id="wechat"><i class="iconfont iconwechat-fill"></i></a>
+  </div>
+</section>
+        
+        
+  <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/" rel="tag">python</a></li></ul> 
+
+        
+  <nav class="nav">
+    <a href="/2021/07/15/C%E8%AF%AD%E8%A8%80%E9%A1%BA%E5%BA%8F%E8%A1%A8%E7%9A%84%E5%AE%9E%E7%8E%B0/"><i class="iconfont iconleft"></i>C语言顺序表的实现</a>
+    <a href="/2021/07/15/Numpy%E7%AC%94%E8%AE%B0/">Numpy笔记<i class="iconfont iconright"></i></a>
+  </nav>
+
+      </section>
+      
+    </section>
+  </div>
+</article></div>
+      <div class="col-xl-3">
+        
+          
+  <aside class="toc-wrap">
+    <h3 class="toc-title">文章目录：</h3>
+    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%80%E4%BA%9B%E6%80%9D%E8%80%83%E4%B8%8E%E5%AD%A6%E4%B9%A0"><span class="toc-text">一些思考与学习</span></a></li></ol>
+  </aside>
+
+        
+      </div>
+    </div>
+  </div>
+</main>
+  
+
+<footer class="footer">
+  <div class="footer-social"><a 
+        href="tencent://message/?Menu=yes&uin=894519210 "
+        target="_blank"
+        class="footer-social-item"
+        onMouseOver="this.style.color= '#12B7F5'" 
+        onMouseOut="this.style.color='#33333D'">
+          <i class="iconfont  iconQQ "></i>
+      </a><a 
+        href="javascript:; "
+        target="_blank"
+        class="footer-social-item"
+        onMouseOver="this.style.color= '#09BB07'" 
+        onMouseOut="this.style.color='#33333D'">
+          <i class="iconfont  iconwechat-fill "></i>
+      </a><a 
+        href="https://www.instagram.com/izhaoo/ "
+        target="_blank"
+        class="footer-social-item"
+        onMouseOver="this.style.color= '#DA2E76'" 
+        onMouseOut="this.style.color='#33333D'">
+          <i class="iconfont  iconinstagram "></i>
+      </a><a 
+        href="https://github.com/zhaoo "
+        target="_blank"
+        class="footer-social-item"
+        onMouseOver="this.style.color= '#9f7be1'" 
+        onMouseOut="this.style.color='#33333D'">
+          <i class="iconfont  icongithub-fill "></i>
+      </a><a 
+        href="mailto:izhaoo@163.com "
+        target="_blank"
+        class="footer-social-item"
+        onMouseOver="this.style.color=#FF3B00" 
+        onMouseOut="this.style.color='#33333D'">
+          <i class="iconfont  iconmail"></i>
+      </a></div>
+  
+    <div class="footer-copyright"><p>Powered by <a target="_blank" href="https://hexo.io">Hexo</a>  |  Theme - <a target="_blank" href="https://github.com/izhaoo/hexo-theme-zhaoo">zhaoo</a></p></div>
+  
+</footer>
+  
+      <div class="fab fab-plus">
+    <i class="iconfont iconplus"></i>
+  </div>
+  
+  
+  <div class="fab fab-up">
+    <i class="iconfont iconcaret-up"></i>
+  </div>
+  
+  
+  
+    
+<script src="/js/color-mode.js"></script>
+
+  
+  
+</body>
+
+<script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+
+
+
+  
+<script src="https://cdn.bootcdn.net/ajax/libs/jquery.lazyload/1.9.1/jquery.lazyload.min.js"></script>
+
+
+
+
+  
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js"></script>
+
+
+
+
+
+
+  
+<script src="https://cdn.bootcdn.net/ajax/libs/jquery.qrcode/1.0/jquery.qrcode.min.js"></script>
+
+
+
+
+<script src="/js/utils.js"></script>
+<script src="/js/script.js"></script>
+
+
+
+
+
+
+
+  <script>
+    (function () {
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+      } else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+      }
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+</html>

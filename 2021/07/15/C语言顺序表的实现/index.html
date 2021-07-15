@@ -1,0 +1,387 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" color-mode=light>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>C语言顺序表的实现 - Hexo</title>
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="google" content="notranslate" />
+  
+  <meta name="description" content="
+在学习数据结构的时候老师大多给出的是伪代码，本文实现...">
+  <meta name="author" content="Guo tianyu">
+  <link rel="icon" href="/images/icons/favicon-16x16.png" type="image/png" sizes="16x16">
+  <link rel="icon" href="/images/icons/favicon-32x32.png" type="image/png" sizes="32x32">
+  <link rel="apple-touch-icon" href="/images/icons/apple-touch-icon.png" sizes="180x180">
+  <meta rel="mask-icon" href="/images/icons/stun-logo.svg" color="#333333">
+  
+    <meta rel="msapplication-TileImage" content="/images/icons/favicon-144x144.png">
+    <meta rel="msapplication-TileColor" content="#000000">
+  
+
+  
+<link rel="stylesheet" href="/css/style.css">
+
+
+  
+    
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1445822_r673sha78lq.css">
+
+  
+
+  
+    
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css">
+
+  
+
+  
+    
+      
+        
+        
+<link rel="stylesheet" href="https://cdn.bootcss.com/highlight.js/9.18.1/styles/xcode.min.css" name="highlight-style" mode="light">
+
+      
+        
+        
+<link rel="stylesheet" href="https://cdn.bootcss.com/highlight.js/9.18.1/styles/solarized-dark.min.css" name="highlight-style" mode="dark">
+
+      
+  
+
+  <script>
+    var CONFIG = window.CONFIG || {};
+    var ZHAOO = window.ZHAOO || {};
+    CONFIG = {
+      isHome: false,
+      fancybox: true,
+      pjax: false,
+      lazyload: {
+        enable: true,
+        only_post: 'false',
+        loading: '[object Object]'
+      },
+      donate: {
+        enable: true,
+        alipay: 'https://pic.izhaoo.com/alipay.jpg',
+        wechat: 'https://pic.izhaoo.com/wechat.jpg'
+      },
+      galleries: {
+        enable: true
+      },
+      fab: {
+        enable: true,
+        always_show: false
+      },
+      carrier: {
+        enable: true
+      },
+      daovoice: {
+        enable: false
+      },
+      preview: {
+        background: {
+          default: '',
+          api: ''
+        },
+        motto: {
+          default: '我在开了灯的床头下，想问问自己的心啊。',
+          typing: true,
+          api: 'https://v2.jinrishici.com/one.json',
+          data_contents: '["data","content"]'
+        },
+      },
+      qrcode: {
+        enable: true,
+        type: 'url',
+        image: 'https://pic.izhaoo.com/weapp-code.jpg',
+      },
+      toc: {
+        enable: true
+      },
+      scrollbar: {
+        type: 'default'
+      },
+      notification: {
+        enable: false,
+        delay: 4500,
+        list: '',
+        page_white_list: '',
+        page_black_list: ''
+      },
+      search: {
+        enable: false,
+        path: ''
+      }
+    }
+  </script>
+
+  
+
+  
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body class="lock-screen">
+  <div class="loading"></div>
+  
+    
+
+
+  <nav class="navbar">
+    <div class="left">
+      
+        <i class="iconfont iconhome j-navbar-back-home"></i>
+      
+      
+        <i class="iconfont iconqrcode j-navbar-qrcode"></i>
+      
+      
+        <i class="iconfont iconmoono" id="color-toggle" color-toggle="light"></i>
+      
+      
+    </div>
+    <div class="center">C语言顺序表的实现</div>
+    <div class="right">
+      <i class="iconfont iconmenu j-navbar-menu"></i>
+    </div>
+    
+      <div id="qrcode-navbar"></div>
+    
+  </nav>
+
+  
+  
+
+<nav class="menu">
+  <div class="menu-container">
+    <div class="menu-close">
+      <i class="iconfont iconbaseline-close-px"></i>
+    </div>
+    <ul class="menu-content"><li class="menu-item">
+        <a href="/ " class="underline "> 首页</a>
+      </li><li class="menu-item">
+        <a href="/galleries/ " class="underline "> 摄影</a>
+      </li><li class="menu-item">
+        <a href="/archives/ " class="underline "> 归档</a>
+      </li><li class="menu-item">
+        <a href="/tags/ " class="underline "> 标签</a>
+      </li><li class="menu-item">
+        <a href="/categories/ " class="underline "> 分类</a>
+      </li><li class="menu-item">
+        <a href="/about/ " class="underline "> 关于</a>
+      </li></ul>
+    
+      <div class="menu-copyright"><p>Powered by <a target="_blank" href="https://hexo.io">Hexo</a>  |  Theme - <a target="_blank" href="https://github.com/izhaoo/hexo-theme-zhaoo">zhaoo</a></p></div>
+    
+  </div>
+</nav>
+  <main id="main">
+  <div class="article-wrap">
+    <div class="row container">
+      <div class="col-xl-3"></div>
+      <div class="col-xl-6"><article class="article">
+  <div class="wrap">
+    <section class="head">
+  <img   class="lazyload" data-original="/images/theme/post-image.jpg" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="  draggable="false">
+  <div class="head-mask">
+    <h1 class="head-title">C语言顺序表的实现</h1>
+    <div class="head-info">
+      <span class="post-info-item"><i class="iconfont iconcalendar"></i>七月 15, 2021</span>
+      
+      <span class="post-info-item"><i class="iconfont iconfont-size"></i>5347</span>
+    </div>
+  </div>
+</section>
+    <section class="main">
+      <section class="content">
+        <blockquote>
+<p>在学习数据结构的时候老师大多给出的是伪代码，本文实现了数据结构中线性表的c语言表达，一方面以供学习者参考，另一方面作为自己学习的记录。使用的IDE是VS2019，作为c语言的初学者，许多地方做的不够完善还请海涵。在代码过程中遇到的问题与解答已附在代码中。</p>
+</blockquote>
+<h2 id="1-代码部分"><a href="#1-代码部分" class="headerlink" title="1.代码部分"></a>1.代码部分</h2><p>结构体的定义：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-keyword">typedef</span> <span class="hljs-class"><span class="hljs-keyword">struct</span> &#123;</span><br>	<span class="hljs-keyword">char</span> *name[<span class="hljs-number">5</span>];<br>	<span class="hljs-keyword">int</span> price[<span class="hljs-number">5</span>];<br>&#125;NumberList;<br><br><br><span class="hljs-keyword">typedef</span> <span class="hljs-class"><span class="hljs-keyword">struct</span> &#123;</span><br>	NumberList *lists;<br>	<span class="hljs-keyword">int</span> length;<br>&#125;Lineartable;<br></code></pre></td></tr></table></figure>
+
+
+
+<p>主函数部分：（由于我只是在测试各个函数的运行情况，主函数部分大家可自行修改）</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span><br><span class="hljs-function"></span>&#123;<br>	Lineartable* sqlist = (Lineartable*)<span class="hljs-built_in">malloc</span>(<span class="hljs-keyword">sizeof</span>(Lineartable));<br>	NumberList* nlist = (NumberList*)<span class="hljs-built_in">malloc</span>(<span class="hljs-keyword">sizeof</span>(NumberList));<br>	<span class="hljs-keyword">int</span> i, result;<br>	<span class="hljs-keyword">char</span> *check;<br>	<span class="hljs-keyword">char</span>* books[<span class="hljs-number">5</span>] = &#123; <span class="hljs-string">&quot;The great Gastby&quot;</span>, <span class="hljs-string">&quot;Harry Potter&quot;</span>, <span class="hljs-string">&quot;Sea and the old&quot;</span>, <span class="hljs-string">&quot;Education of love&quot;</span>, <span class="hljs-string">&quot;Island&quot;</span> &#125;;<br>	<span class="hljs-keyword">int</span> money[<span class="hljs-number">5</span>] = &#123; <span class="hljs-number">100</span>, <span class="hljs-number">200</span>, <span class="hljs-number">138</span>, <span class="hljs-number">36</span>, <span class="hljs-number">60</span> &#125;;<br>	<span class="hljs-keyword">if</span> (sqlist &amp;&amp; nlist)  <span class="hljs-comment">//If &quot;if&quot; sentence is deleted, the computer doesn&#x27;t konw if  function malloc offers enough memory for sqlist. A warning will be existed. </span><br>	&#123;<br>		<span class="hljs-keyword">for</span> (i = <span class="hljs-number">0</span>; i &lt;= <span class="hljs-number">4</span>; i++) &#123;<br>			nlist-&gt;name[i] = books[i];<br>			nlist-&gt;price[i] = money[i];<br>		&#125;<br>	sqlist-&gt;lists = nlist;<br>	sqlist-&gt;length = <span class="hljs-number">5</span>;<br>	<span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;The book is: %s\n&quot;</span>, nlist-&gt;name[<span class="hljs-number">0</span>]);  <span class="hljs-comment">//Q1: How to print a string array? A1: Just print the point of array with &quot;%s&quot;.</span><br>	<span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%d book in library now.\n&quot;</span>, sqlist-&gt;length);<br>	ShowBooks(sqlist);<br>    <span class="hljs-comment">//LocateElem(sqlist);</span><br>	<span class="hljs-comment">//ListInsert(sqlist);</span><br>	<span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;The book is: %s\n&quot;</span>, sqlist-&gt;lists-&gt;name[<span class="hljs-number">3</span>]);<br>	ShowBooks(sqlist);<br>	check = GetElem(nlist, <span class="hljs-number">3</span>);  <span class="hljs-comment">//Q2: Why isn&#x27;t check a pointer?   A2: You forget to define check as a pointer.</span><br>	<span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%s is at the position.\n&quot;</span>, check);<br>	<span class="hljs-comment">//Clearlist(sqlist);</span><br>	<span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%d book in library now.\n&quot;</span>, sqlist-&gt;length);   <span class="hljs-comment">//annotation for lines:ctrl + k, ctrl + c</span><br>	DeleteList(sqlist);<br>	<span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%d book in library now.\n&quot;</span>, sqlist-&gt;length);<br>	ShowBooks(sqlist);<br>	result = IsEmpty(sqlist);<br>	<span class="hljs-keyword">if</span> (result)<br>	&#123;<br>		<span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Lineartable is empty now.&quot;</span>);<br>	&#125;<br>	<span class="hljs-keyword">else</span><br>	&#123;<br>		<span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Lineartable is not empty.&quot;</span>);<br>	&#125; <br>	&#125;	<br>	<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>子函数部分：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">DestoryList</span><span class="hljs-params">(Lineartable *sqlist, NumberList* lists)</span> </span>&#123;<br>	<span class="hljs-keyword">if</span> (sqlist-&gt;lists-&gt;name &amp;&amp; sqlist-&gt;lists-&gt;price)<br>	&#123;<br>		<span class="hljs-built_in">free</span>(sqlist);<br>		<span class="hljs-built_in">free</span>(lists);<br>	&#125;<br>&#125;<br><br><br><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">Clearlist</span><span class="hljs-params">(Lineartable *sqlist)</span> </span>&#123;<br>	<span class="hljs-keyword">int</span> i;<br>	<span class="hljs-keyword">for</span> (i = <span class="hljs-number">0</span>; i &lt;= <span class="hljs-number">4</span>; i++)<br>	&#123;<br>	sqlist-&gt;lists-&gt;name[i] = <span class="hljs-string">&quot;&quot;</span>;<br>	sqlist-&gt;lists-&gt;price[i] = <span class="hljs-number">0</span>;<br>	sqlist-&gt;length = <span class="hljs-number">0</span>;<br>	&#125;<br>&#125;<br><br><br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">Getlenth</span><span class="hljs-params">(Lineartable* sqlist)</span> </span>&#123;<br>	<span class="hljs-keyword">return</span> sqlist-&gt;length;<br>&#125;<br><br><br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">IsEmpty</span><span class="hljs-params">(Lineartable* sqlist)</span> </span>&#123;<br>	<span class="hljs-keyword">if</span> (sqlist-&gt;length == <span class="hljs-number">0</span>) <br>	&#123;<br>		<span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;<br>	&#125;<br>	<span class="hljs-keyword">else</span><br>	&#123;<br>		<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>	&#125;<br>&#125;<br><br><br><span class="hljs-function"><span class="hljs-keyword">char</span>* <span class="hljs-title">GetElem</span><span class="hljs-params">(NumberList* lists, <span class="hljs-keyword">int</span> i)</span></span>&#123;<br>	<span class="hljs-keyword">return</span> lists-&gt;name[i];<br>&#125;<br><br><br><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">LocateElem</span><span class="hljs-params">(Lineartable* sqlist)</span></span>&#123;<br>	<span class="hljs-keyword">char</span> bn[<span class="hljs-number">50</span>];<br>	<span class="hljs-keyword">int</span> i;<br>	<span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Input the book you are looking for:&quot;</span>);<br>	gets_s(bn, <span class="hljs-number">50</span>);<br>	<span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span>* pointer1 = &amp;bn;  <span class="hljs-comment">//Pay attention here: function strcmp only accept its parameters in form of const type *, in this case, bn and name should be transformed</span><br>	<span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span>* pointer2 = &amp;(sqlist-&gt;lists-&gt;name);<br>	<span class="hljs-keyword">for</span>(i=<span class="hljs-number">0</span>;i&lt;=sqlist-&gt;length;i++)<br>	&#123;<br>		<span class="hljs-keyword">if</span> (<span class="hljs-built_in">strcmp</span>(pointer1, pointer2) == <span class="hljs-number">0</span>)<br>		&#123;<br>			<span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;The book is at the position %d&quot;</span>, i);<br>		&#125;<br>	&#125;<br>&#125;<br><br><br><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">ListInsert</span><span class="hljs-params">(Lineartable* sqlist)</span> </span>&#123;  <span class="hljs-comment">//Q4:Why can&#x27;t I change the Lineartable forever even with a &quot;static&quot;? A4: You should place &quot;static&quot; before book[30]</span><br>	<span class="hljs-keyword">int</span> i, j;<br>	<span class="hljs-keyword">static</span> <span class="hljs-keyword">char</span> book[<span class="hljs-number">30</span>];<br>	<span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Input the position and book name you would like to insert: &quot;</span>);<br>	scanf_s(<span class="hljs-string">&quot;%d\n&quot;</span>, &amp;i);<br>	<span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Input the book name:\n&quot;</span>);<br>	setvbuf(<span class="hljs-built_in">stdin</span>, <span class="hljs-literal">NULL</span>, _IOFBF, <span class="hljs-number">512</span>);<br>	gets_s(book, <span class="hljs-number">30</span>);  <span class="hljs-comment">//Q3: Why this line shows before the last one?  A4:Becasue of the exist of buffer.</span><br>	<span class="hljs-keyword">char</span>* pointer = (<span class="hljs-keyword">char</span>*)book;<br>	<span class="hljs-keyword">if</span> (i &lt; <span class="hljs-number">1</span> || i &gt; sqlist-&gt;length)<br>	&#123;<br>		<span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Fail to insert!&quot;</span>);<br>	&#125;<br>	<span class="hljs-keyword">else</span><br>	&#123;<br>		<span class="hljs-keyword">for</span> (j = sqlist-&gt;length - <span class="hljs-number">1</span>; j &gt;= i - <span class="hljs-number">1</span>; j--)<br>		&#123;<br>			sqlist-&gt;lists-&gt;name[j + <span class="hljs-number">1</span>] = sqlist-&gt;lists-&gt;name[j];<br>			sqlist-&gt;lists-&gt;price[j + <span class="hljs-number">1</span>] = sqlist-&gt;lists-&gt;price[j];<br>		&#125;<br>		sqlist-&gt;lists-&gt;name[i] = pointer;<br>	&#125;<br>&#125;<br><br><br><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">ShowBooks</span><span class="hljs-params">(Lineartable* sqlist)</span></span><br><span class="hljs-function"></span>&#123;<br>	<span class="hljs-keyword">int</span> i;<br>	<span class="hljs-keyword">for</span> (i = <span class="hljs-number">0</span>; i &lt;= <span class="hljs-number">4</span>; i++) &#123;<br>		<span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Book %d is: %s\n&quot;</span>, i+<span class="hljs-number">1</span>, sqlist-&gt;lists-&gt;name[i]);<br>	&#125;<br>	<br>&#125;<br><br><br><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">DeleteList</span><span class="hljs-params">(Lineartable* sqlist)</span> </span><br><span class="hljs-function"></span>&#123;<br>	<span class="hljs-keyword">int</span> i, j;<br>	<span class="hljs-keyword">char</span>* pointer = <span class="hljs-string">&quot;&quot;</span>;<br>	<span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Input the position you want to delete:&quot;</span>);<br>	scanf_s(<span class="hljs-string">&quot;%d&quot;</span>, &amp;i);<br>	<span class="hljs-keyword">if</span> (i &lt; <span class="hljs-number">1</span> || i &gt; sqlist-&gt;length)<br>	&#123;<br>		<span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Fail to delete!&quot;</span>);<br>	&#125;<br>	<span class="hljs-keyword">else</span><br>	&#123;<br>		<span class="hljs-keyword">for</span> (j = i; j &lt; sqlist-&gt;length; j++)<br>		&#123;<br>			sqlist-&gt;lists-&gt;name[j - <span class="hljs-number">1</span>] = sqlist-&gt;lists-&gt;name[j];<br>			sqlist-&gt;lists-&gt;price[j - <span class="hljs-number">1</span>] = sqlist-&gt;lists-&gt;price[j];<br>		&#125;<br>		sqlist-&gt;length -= <span class="hljs-number">1</span>;<br>		sqlist-&gt;lists-&gt;name[<span class="hljs-number">4</span>] = pointer;<br>		sqlist-&gt;lists-&gt;price[<span class="hljs-number">4</span>] = <span class="hljs-number">0</span>;<br>	&#125;<br><br>&#125;<br></code></pre></td></tr></table></figure>
+<h2 id="2-反思与改进"><a href="#2-反思与改进" class="headerlink" title="2.反思与改进"></a>2.反思与改进</h2><p>反思与改进：<br>1.对于c语言的内存机制还不够清晰，初次写长段c的代码报错很多很多。<br>2.尝试在多个.c文件下进行后续数据结构的表达。<br>3.接口与出口做的不够好，在未来尝试不做任何返回，只接受最简单基础的单一变量，在函数内部完成各项功能。</p>
+
+      </section>
+      <section class="extra">
+        
+          <ul class="copyright">
+  
+    <li><strong>本文作者：</strong>Guo tianyu</li>
+    <li><strong>本文链接：</strong><a href="https://guotianyu-2020.github.io/2021/07/15/C%E8%AF%AD%E8%A8%80%E9%A1%BA%E5%BA%8F%E8%A1%A8%E7%9A%84%E5%AE%9E%E7%8E%B0/index.html" title="https:&#x2F;&#x2F;guotianyu-2020.github.io&#x2F;2021&#x2F;07&#x2F;15&#x2F;C%E8%AF%AD%E8%A8%80%E9%A1%BA%E5%BA%8F%E8%A1%A8%E7%9A%84%E5%AE%9E%E7%8E%B0&#x2F;index.html">https:&#x2F;&#x2F;guotianyu-2020.github.io&#x2F;2021&#x2F;07&#x2F;15&#x2F;C%E8%AF%AD%E8%A8%80%E9%A1%BA%E5%BA%8F%E8%A1%A8%E7%9A%84%E5%AE%9E%E7%8E%B0&#x2F;index.html</a></li>
+    <li><strong>版权声明：</strong>本博客所有文章均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" title="BY-NC-SA" target="_blank" rel="noopener">BY-NC-SA</a> 许可协议，转载请注明出处！</li>
+  
+</ul>
+        
+        
+          <section class="donate">
+  <div id="qrcode-donate">
+    <img   class="lazyload" data-original="https://pic.izhaoo.com/alipay.jpg" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" >
+  </div>
+  <div class="icon">
+    <a href="javascript:;" id="alipay"><i class="iconfont iconalipay"></i></a>
+    <a href="javascript:;" id="wechat"><i class="iconfont iconwechat-fill"></i></a>
+  </div>
+</section>
+        
+        
+  <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/c%E8%AF%AD%E8%A8%80%E3%80%81%E9%A1%BA%E5%BA%8F%E8%A1%A8/" rel="tag">c语言、顺序表</a></li></ul> 
+
+        
+  <nav class="nav">
+    <a></a>
+    <a href="/2021/07/15/python%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A13/">python面向对象3<i class="iconfont iconright"></i></a>
+  </nav>
+
+      </section>
+      
+    </section>
+  </div>
+</article></div>
+      <div class="col-xl-3">
+        
+          
+  <aside class="toc-wrap">
+    <h3 class="toc-title">文章目录：</h3>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E4%BB%A3%E7%A0%81%E9%83%A8%E5%88%86"><span class="toc-text">1.代码部分</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E5%8F%8D%E6%80%9D%E4%B8%8E%E6%94%B9%E8%BF%9B"><span class="toc-text">2.反思与改进</span></a></li></ol>
+  </aside>
+
+        
+      </div>
+    </div>
+  </div>
+</main>
+  
+
+<footer class="footer">
+  <div class="footer-social"><a 
+        href="tencent://message/?Menu=yes&uin=894519210 "
+        target="_blank"
+        class="footer-social-item"
+        onMouseOver="this.style.color= '#12B7F5'" 
+        onMouseOut="this.style.color='#33333D'">
+          <i class="iconfont  iconQQ "></i>
+      </a><a 
+        href="javascript:; "
+        target="_blank"
+        class="footer-social-item"
+        onMouseOver="this.style.color= '#09BB07'" 
+        onMouseOut="this.style.color='#33333D'">
+          <i class="iconfont  iconwechat-fill "></i>
+      </a><a 
+        href="https://www.instagram.com/izhaoo/ "
+        target="_blank"
+        class="footer-social-item"
+        onMouseOver="this.style.color= '#DA2E76'" 
+        onMouseOut="this.style.color='#33333D'">
+          <i class="iconfont  iconinstagram "></i>
+      </a><a 
+        href="https://github.com/zhaoo "
+        target="_blank"
+        class="footer-social-item"
+        onMouseOver="this.style.color= '#9f7be1'" 
+        onMouseOut="this.style.color='#33333D'">
+          <i class="iconfont  icongithub-fill "></i>
+      </a><a 
+        href="mailto:izhaoo@163.com "
+        target="_blank"
+        class="footer-social-item"
+        onMouseOver="this.style.color=#FF3B00" 
+        onMouseOut="this.style.color='#33333D'">
+          <i class="iconfont  iconmail"></i>
+      </a></div>
+  
+    <div class="footer-copyright"><p>Powered by <a target="_blank" href="https://hexo.io">Hexo</a>  |  Theme - <a target="_blank" href="https://github.com/izhaoo/hexo-theme-zhaoo">zhaoo</a></p></div>
+  
+</footer>
+  
+      <div class="fab fab-plus">
+    <i class="iconfont iconplus"></i>
+  </div>
+  
+  
+  <div class="fab fab-up">
+    <i class="iconfont iconcaret-up"></i>
+  </div>
+  
+  
+  
+    
+<script src="/js/color-mode.js"></script>
+
+  
+  
+</body>
+
+<script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+
+
+
+  
+<script src="https://cdn.bootcdn.net/ajax/libs/jquery.lazyload/1.9.1/jquery.lazyload.min.js"></script>
+
+
+
+
+  
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js"></script>
+
+
+
+
+
+
+  
+<script src="https://cdn.bootcdn.net/ajax/libs/jquery.qrcode/1.0/jquery.qrcode.min.js"></script>
+
+
+
+
+<script src="/js/utils.js"></script>
+<script src="/js/script.js"></script>
+
+
+
+
+
+
+
+  <script>
+    (function () {
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+      } else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+      }
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+</html>

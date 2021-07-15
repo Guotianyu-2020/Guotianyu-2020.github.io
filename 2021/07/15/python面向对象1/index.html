@@ -1,0 +1,390 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" color-mode=light>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>python面向对象1 - Hexo</title>
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="google" content="notranslate" />
+  
+  <meta name="description" content="1.面向对象编程中的一些基础函数1.1__init__...">
+  <meta name="author" content="Guo tianyu">
+  <link rel="icon" href="/images/icons/favicon-16x16.png" type="image/png" sizes="16x16">
+  <link rel="icon" href="/images/icons/favicon-32x32.png" type="image/png" sizes="32x32">
+  <link rel="apple-touch-icon" href="/images/icons/apple-touch-icon.png" sizes="180x180">
+  <meta rel="mask-icon" href="/images/icons/stun-logo.svg" color="#333333">
+  
+    <meta rel="msapplication-TileImage" content="/images/icons/favicon-144x144.png">
+    <meta rel="msapplication-TileColor" content="#000000">
+  
+
+  
+<link rel="stylesheet" href="/css/style.css">
+
+
+  
+    
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1445822_r673sha78lq.css">
+
+  
+
+  
+    
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css">
+
+  
+
+  
+    
+      
+        
+        
+<link rel="stylesheet" href="https://cdn.bootcss.com/highlight.js/9.18.1/styles/xcode.min.css" name="highlight-style" mode="light">
+
+      
+        
+        
+<link rel="stylesheet" href="https://cdn.bootcss.com/highlight.js/9.18.1/styles/solarized-dark.min.css" name="highlight-style" mode="dark">
+
+      
+  
+
+  <script>
+    var CONFIG = window.CONFIG || {};
+    var ZHAOO = window.ZHAOO || {};
+    CONFIG = {
+      isHome: false,
+      fancybox: true,
+      pjax: false,
+      lazyload: {
+        enable: true,
+        only_post: 'false',
+        loading: '[object Object]'
+      },
+      donate: {
+        enable: true,
+        alipay: 'https://pic.izhaoo.com/alipay.jpg',
+        wechat: 'https://pic.izhaoo.com/wechat.jpg'
+      },
+      galleries: {
+        enable: true
+      },
+      fab: {
+        enable: true,
+        always_show: false
+      },
+      carrier: {
+        enable: true
+      },
+      daovoice: {
+        enable: false
+      },
+      preview: {
+        background: {
+          default: '',
+          api: ''
+        },
+        motto: {
+          default: '我在开了灯的床头下，想问问自己的心啊。',
+          typing: true,
+          api: 'https://v2.jinrishici.com/one.json',
+          data_contents: '["data","content"]'
+        },
+      },
+      qrcode: {
+        enable: true,
+        type: 'url',
+        image: 'https://pic.izhaoo.com/weapp-code.jpg',
+      },
+      toc: {
+        enable: true
+      },
+      scrollbar: {
+        type: 'default'
+      },
+      notification: {
+        enable: false,
+        delay: 4500,
+        list: '',
+        page_white_list: '',
+        page_black_list: ''
+      },
+      search: {
+        enable: false,
+        path: ''
+      }
+    }
+  </script>
+
+  
+
+  
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body class="lock-screen">
+  <div class="loading"></div>
+  
+    
+
+
+  <nav class="navbar">
+    <div class="left">
+      
+        <i class="iconfont iconhome j-navbar-back-home"></i>
+      
+      
+        <i class="iconfont iconqrcode j-navbar-qrcode"></i>
+      
+      
+        <i class="iconfont iconmoono" id="color-toggle" color-toggle="light"></i>
+      
+      
+    </div>
+    <div class="center">python面向对象1</div>
+    <div class="right">
+      <i class="iconfont iconmenu j-navbar-menu"></i>
+    </div>
+    
+      <div id="qrcode-navbar"></div>
+    
+  </nav>
+
+  
+  
+
+<nav class="menu">
+  <div class="menu-container">
+    <div class="menu-close">
+      <i class="iconfont iconbaseline-close-px"></i>
+    </div>
+    <ul class="menu-content"><li class="menu-item">
+        <a href="/ " class="underline "> 首页</a>
+      </li><li class="menu-item">
+        <a href="/galleries/ " class="underline "> 摄影</a>
+      </li><li class="menu-item">
+        <a href="/archives/ " class="underline "> 归档</a>
+      </li><li class="menu-item">
+        <a href="/tags/ " class="underline "> 标签</a>
+      </li><li class="menu-item">
+        <a href="/categories/ " class="underline "> 分类</a>
+      </li><li class="menu-item">
+        <a href="/about/ " class="underline "> 关于</a>
+      </li></ul>
+    
+      <div class="menu-copyright"><p>Powered by <a target="_blank" href="https://hexo.io">Hexo</a>  |  Theme - <a target="_blank" href="https://github.com/izhaoo/hexo-theme-zhaoo">zhaoo</a></p></div>
+    
+  </div>
+</nav>
+  <main id="main">
+  <div class="article-wrap">
+    <div class="row container">
+      <div class="col-xl-3"></div>
+      <div class="col-xl-6"><article class="article">
+  <div class="wrap">
+    <section class="head">
+  <img   class="lazyload" data-original="/images/theme/post-image.jpg" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="  draggable="false">
+  <div class="head-mask">
+    <h1 class="head-title">python面向对象1</h1>
+    <div class="head-info">
+      <span class="post-info-item"><i class="iconfont iconcalendar"></i>七月 15, 2021</span>
+      
+      <span class="post-info-item"><i class="iconfont iconfont-size"></i>1623</span>
+    </div>
+  </div>
+</section>
+    <section class="main">
+      <section class="content">
+        <h3 id="1-面向对象编程中的一些基础函数"><a href="#1-面向对象编程中的一些基础函数" class="headerlink" title="1.面向对象编程中的一些基础函数"></a><em>1.面向对象编程中的一些基础函数</em></h3><h5 id="1-1-init-："><a href="#1-1-init-：" class="headerlink" title="1.1__init__："></a>1.1__init__：</h5><p>​        init是实例创建后被调用的，用以设置对象属性的初始值。依据需求看是否需要这个函数。init函数可对类进行初始化，且def之后不可以用return进行返回。</p>
+<h5 id="1-2-new"><a href="#1-2-new" class="headerlink" title="1.2__new__:"></a>1.2__new__:</h5><p>​        new是在实例创建前被调用的，创建一个实例然后返回该实例（例子中创建了string，返回一个新的str）。继承一个不可变类型但又想进行修改时使用。new函数提示开辟存储空间。new的参数会传给init方法，需要返回一个实例对象作为返回值。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">CapStr</span>(<span class="hljs-params"><span class="hljs-built_in">str</span></span>):</span><br>    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">__new__</span>(<span class="hljs-params">cls, string</span>):</span><br>        string = string.upper()<br>        <span class="hljs-keyword">return</span> <span class="hljs-built_in">str</span>.__new__(cls, string)<br><br><br>a = CapStr(<span class="hljs-string">&#x27;sdwhdwisiad&#x27;</span>)<br><span class="hljs-built_in">print</span>(a)<br></code></pre></td></tr></table></figure>
+
+<p>​        CapStr继承了str，由于str不可修改，故用new方法进行修改。结果是</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">SDWHDWISIAD<br></code></pre></td></tr></table></figure>
+
+<h5 id="1-3-del"><a href="#1-3-del" class="headerlink" title="1.3__del__:"></a>1.3__del__:</h5><p>​        当实例化对象消失（copy的版本被删掉时不会被调用）的时候会调用del方法。（在pycharm里运行例子时，由于执行后就被删掉了所以既打印了init方法也打印了del方法，在idle环境下不存在这个问题）</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-meta">&gt;&gt;&gt; </span><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">A</span>:</span><br><span class="hljs-meta">... </span>    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">__init__</span>(<span class="hljs-params">self</span>):</span><br><span class="hljs-meta">... </span>            <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;got&#x27;</span>)<br><span class="hljs-meta">... </span>    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">__del__</span>(<span class="hljs-params">self</span>):</span><br><span class="hljs-meta">... </span>            <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;dismiss&#x27;</span>)<br>...<br><span class="hljs-meta">&gt;&gt;&gt; </span>a1 = A()<br>got<br><span class="hljs-meta">&gt;&gt;&gt; </span>a2 = a1<br><span class="hljs-meta">&gt;&gt;&gt; </span>a3 = a2<br><span class="hljs-meta">&gt;&gt;&gt; </span><span class="hljs-keyword">del</span> a3<br><span class="hljs-meta">&gt;&gt;&gt; </span><span class="hljs-keyword">del</span> a2<br><span class="hljs-meta">&gt;&gt;&gt; </span><span class="hljs-keyword">del</span> a1<br>dismiss<br></code></pre></td></tr></table></figure>
+
+<h3 id="2-算数运算与其重载"><a href="#2-算数运算与其重载" class="headerlink" title="2.算数运算与其重载"></a><em>2.算数运算与其重载</em></h3><h5 id="（重载就是重新定义算术运算）"><a href="#（重载就是重新定义算术运算）" class="headerlink" title="（重载就是重新定义算术运算）"></a><em>（重载就是重新定义算术运算）</em></h5><h5 id="2-1对象可进行的所有算术运算"><a href="#2-1对象可进行的所有算术运算" class="headerlink" title="2.1对象可进行的所有算术运算"></a>2.1对象可进行的所有算术运算</h5><p><img    class="lazyload" data-original="https://img-blog.csdnimg.cn/20210218195808681.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L20wXzQ5MTUxOTc3,size_16,color_FFFFFF,t_70#pic_center" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">算术运算</span></p>
+<h5 id="2-2重载"><a href="#2-2重载" class="headerlink" title="2.2重载"></a>2.2重载</h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-meta">&gt;&gt;&gt; </span><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">New_int</span>(<span class="hljs-params"><span class="hljs-built_in">int</span></span>):</span><br><span class="hljs-meta">... </span>    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">__add__</span>(<span class="hljs-params">self,other</span>):</span><br><span class="hljs-meta">... </span>            <span class="hljs-keyword">return</span> <span class="hljs-built_in">int</span>.__sub__(self,other)<br>...<br><span class="hljs-meta">&gt;&gt;&gt; </span>a = New_int(<span class="hljs-number">5</span>)<br><span class="hljs-meta">&gt;&gt;&gt; </span>b = New_int(<span class="hljs-number">9</span>)<br><span class="hljs-meta">&gt;&gt;&gt; </span>a + b<br>-<span class="hljs-number">4</span><br></code></pre></td></tr></table></figure>
+
+<p>​        将原来的加法add方法重载为了减法。（若将加法定义为加法则会产生递归，超过了最大递归层次就会报错）<br>​        当当前运算不能正常进行时，自动调用其反运算（如add不行则会调用radd方法）</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-meta">&gt;&gt;&gt; </span><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Nint</span>(<span class="hljs-params"><span class="hljs-built_in">int</span></span>):</span><br><span class="hljs-meta">... </span>    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">__radd__</span>(<span class="hljs-params">self,other</span>):</span><br><span class="hljs-meta">... </span>            <span class="hljs-keyword">return</span> <span class="hljs-built_in">int</span>.__sub__(self,other)<br>...<br><span class="hljs-meta">&gt;&gt;&gt; </span>a = Nint(<span class="hljs-number">5</span>)<br><span class="hljs-meta">&gt;&gt;&gt; </span>b = Nint(<span class="hljs-number">3</span>)<br><span class="hljs-meta">&gt;&gt;&gt; </span>a + b<br><span class="hljs-number">8</span><br><span class="hljs-meta">&gt;&gt;&gt; </span><span class="hljs-number">1</span> + b<br><span class="hljs-number">2</span><br></code></pre></td></tr></table></figure>
+
+<p>​        例中，a，b是同一类型，相加时自动调用__add__方法进行相加，而1与b不是同一类型，无法相加，会自动调用radd方法，即我们已经定义了的方法。（因为b属于class Nint，所以self参数是b，other参数是1）<br>类似还有增量赋值运算，形式为__iadd__</p>
+
+      </section>
+      <section class="extra">
+        
+          <ul class="copyright">
+  
+    <li><strong>本文作者：</strong>Guo tianyu</li>
+    <li><strong>本文链接：</strong><a href="https://guotianyu-2020.github.io/2021/07/15/python%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A11/index.html" title="https:&#x2F;&#x2F;guotianyu-2020.github.io&#x2F;2021&#x2F;07&#x2F;15&#x2F;python%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A11&#x2F;index.html">https:&#x2F;&#x2F;guotianyu-2020.github.io&#x2F;2021&#x2F;07&#x2F;15&#x2F;python%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A11&#x2F;index.html</a></li>
+    <li><strong>版权声明：</strong>本博客所有文章均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" title="BY-NC-SA" target="_blank" rel="noopener">BY-NC-SA</a> 许可协议，转载请注明出处！</li>
+  
+</ul>
+        
+        
+          <section class="donate">
+  <div id="qrcode-donate">
+    <img   class="lazyload" data-original="https://pic.izhaoo.com/alipay.jpg" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" >
+  </div>
+  <div class="icon">
+    <a href="javascript:;" id="alipay"><i class="iconfont iconalipay"></i></a>
+    <a href="javascript:;" id="wechat"><i class="iconfont iconwechat-fill"></i></a>
+  </div>
+</section>
+        
+        
+  <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/" rel="tag">python</a></li></ul> 
+
+        
+  <nav class="nav">
+    <a href="/2021/07/15/python%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A12/"><i class="iconfont iconleft"></i>python面向对象2</a>
+    <a href="/2021/07/15/Python%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E7%BC%96%E7%A8%8B1/">我的第一篇博客<i class="iconfont iconright"></i></a>
+  </nav>
+
+      </section>
+      
+    </section>
+  </div>
+</article></div>
+      <div class="col-xl-3">
+        
+          
+  <aside class="toc-wrap">
+    <h3 class="toc-title">文章目录：</h3>
+    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E7%BC%96%E7%A8%8B%E4%B8%AD%E7%9A%84%E4%B8%80%E4%BA%9B%E5%9F%BA%E7%A1%80%E5%87%BD%E6%95%B0"><span class="toc-text">1.面向对象编程中的一些基础函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E7%AE%97%E6%95%B0%E8%BF%90%E7%AE%97%E4%B8%8E%E5%85%B6%E9%87%8D%E8%BD%BD"><span class="toc-text">2.算数运算与其重载</span></a></li></ol>
+  </aside>
+
+        
+      </div>
+    </div>
+  </div>
+</main>
+  
+
+<footer class="footer">
+  <div class="footer-social"><a 
+        href="tencent://message/?Menu=yes&uin=894519210 "
+        target="_blank"
+        class="footer-social-item"
+        onMouseOver="this.style.color= '#12B7F5'" 
+        onMouseOut="this.style.color='#33333D'">
+          <i class="iconfont  iconQQ "></i>
+      </a><a 
+        href="javascript:; "
+        target="_blank"
+        class="footer-social-item"
+        onMouseOver="this.style.color= '#09BB07'" 
+        onMouseOut="this.style.color='#33333D'">
+          <i class="iconfont  iconwechat-fill "></i>
+      </a><a 
+        href="https://www.instagram.com/izhaoo/ "
+        target="_blank"
+        class="footer-social-item"
+        onMouseOver="this.style.color= '#DA2E76'" 
+        onMouseOut="this.style.color='#33333D'">
+          <i class="iconfont  iconinstagram "></i>
+      </a><a 
+        href="https://github.com/zhaoo "
+        target="_blank"
+        class="footer-social-item"
+        onMouseOver="this.style.color= '#9f7be1'" 
+        onMouseOut="this.style.color='#33333D'">
+          <i class="iconfont  icongithub-fill "></i>
+      </a><a 
+        href="mailto:izhaoo@163.com "
+        target="_blank"
+        class="footer-social-item"
+        onMouseOver="this.style.color=#FF3B00" 
+        onMouseOut="this.style.color='#33333D'">
+          <i class="iconfont  iconmail"></i>
+      </a></div>
+  
+    <div class="footer-copyright"><p>Powered by <a target="_blank" href="https://hexo.io">Hexo</a>  |  Theme - <a target="_blank" href="https://github.com/izhaoo/hexo-theme-zhaoo">zhaoo</a></p></div>
+  
+</footer>
+  
+      <div class="fab fab-plus">
+    <i class="iconfont iconplus"></i>
+  </div>
+  
+  
+  <div class="fab fab-up">
+    <i class="iconfont iconcaret-up"></i>
+  </div>
+  
+  
+  
+    
+<script src="/js/color-mode.js"></script>
+
+  
+  
+</body>
+
+<script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+
+
+
+  
+<script src="https://cdn.bootcdn.net/ajax/libs/jquery.lazyload/1.9.1/jquery.lazyload.min.js"></script>
+
+
+
+
+  
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js"></script>
+
+
+
+
+
+
+  
+<script src="https://cdn.bootcdn.net/ajax/libs/jquery.qrcode/1.0/jquery.qrcode.min.js"></script>
+
+
+
+
+<script src="/js/utils.js"></script>
+<script src="/js/script.js"></script>
+
+
+
+
+
+
+
+  <script>
+    (function () {
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+      } else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+      }
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+</html>

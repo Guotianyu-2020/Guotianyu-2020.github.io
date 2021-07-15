@@ -1,0 +1,446 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" color-mode=light>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Numpy笔记 - Hexo</title>
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="google" content="notranslate" />
+  
+  <meta name="description" content="Numpy学习笔记
+资料来源：Python知识手册，c...">
+  <meta name="author" content="Guo tianyu">
+  <link rel="icon" href="/images/icons/favicon-16x16.png" type="image/png" sizes="16x16">
+  <link rel="icon" href="/images/icons/favicon-32x32.png" type="image/png" sizes="32x32">
+  <link rel="apple-touch-icon" href="/images/icons/apple-touch-icon.png" sizes="180x180">
+  <meta rel="mask-icon" href="/images/icons/stun-logo.svg" color="#333333">
+  
+    <meta rel="msapplication-TileImage" content="/images/icons/favicon-144x144.png">
+    <meta rel="msapplication-TileColor" content="#000000">
+  
+
+  
+<link rel="stylesheet" href="/css/style.css">
+
+
+  
+    
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1445822_r673sha78lq.css">
+
+  
+
+  
+    
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css">
+
+  
+
+  
+    
+      
+        
+        
+<link rel="stylesheet" href="https://cdn.bootcss.com/highlight.js/9.18.1/styles/xcode.min.css" name="highlight-style" mode="light">
+
+      
+        
+        
+<link rel="stylesheet" href="https://cdn.bootcss.com/highlight.js/9.18.1/styles/solarized-dark.min.css" name="highlight-style" mode="dark">
+
+      
+  
+
+  <script>
+    var CONFIG = window.CONFIG || {};
+    var ZHAOO = window.ZHAOO || {};
+    CONFIG = {
+      isHome: false,
+      fancybox: true,
+      pjax: false,
+      lazyload: {
+        enable: true,
+        only_post: 'false',
+        loading: '[object Object]'
+      },
+      donate: {
+        enable: true,
+        alipay: 'https://pic.izhaoo.com/alipay.jpg',
+        wechat: 'https://pic.izhaoo.com/wechat.jpg'
+      },
+      galleries: {
+        enable: true
+      },
+      fab: {
+        enable: true,
+        always_show: false
+      },
+      carrier: {
+        enable: true
+      },
+      daovoice: {
+        enable: false
+      },
+      preview: {
+        background: {
+          default: '',
+          api: ''
+        },
+        motto: {
+          default: '我在开了灯的床头下，想问问自己的心啊。',
+          typing: true,
+          api: 'https://v2.jinrishici.com/one.json',
+          data_contents: '["data","content"]'
+        },
+      },
+      qrcode: {
+        enable: true,
+        type: 'url',
+        image: 'https://pic.izhaoo.com/weapp-code.jpg',
+      },
+      toc: {
+        enable: true
+      },
+      scrollbar: {
+        type: 'default'
+      },
+      notification: {
+        enable: false,
+        delay: 4500,
+        list: '',
+        page_white_list: '',
+        page_black_list: ''
+      },
+      search: {
+        enable: false,
+        path: ''
+      }
+    }
+  </script>
+
+  
+
+  
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body class="lock-screen">
+  <div class="loading"></div>
+  
+    
+
+
+  <nav class="navbar">
+    <div class="left">
+      
+        <i class="iconfont iconhome j-navbar-back-home"></i>
+      
+      
+        <i class="iconfont iconqrcode j-navbar-qrcode"></i>
+      
+      
+        <i class="iconfont iconmoono" id="color-toggle" color-toggle="light"></i>
+      
+      
+    </div>
+    <div class="center">Numpy笔记</div>
+    <div class="right">
+      <i class="iconfont iconmenu j-navbar-menu"></i>
+    </div>
+    
+      <div id="qrcode-navbar"></div>
+    
+  </nav>
+
+  
+  
+
+<nav class="menu">
+  <div class="menu-container">
+    <div class="menu-close">
+      <i class="iconfont iconbaseline-close-px"></i>
+    </div>
+    <ul class="menu-content"><li class="menu-item">
+        <a href="/ " class="underline "> 首页</a>
+      </li><li class="menu-item">
+        <a href="/galleries/ " class="underline "> 摄影</a>
+      </li><li class="menu-item">
+        <a href="/archives/ " class="underline "> 归档</a>
+      </li><li class="menu-item">
+        <a href="/tags/ " class="underline "> 标签</a>
+      </li><li class="menu-item">
+        <a href="/categories/ " class="underline "> 分类</a>
+      </li><li class="menu-item">
+        <a href="/about/ " class="underline "> 关于</a>
+      </li></ul>
+    
+      <div class="menu-copyright"><p>Powered by <a target="_blank" href="https://hexo.io">Hexo</a>  |  Theme - <a target="_blank" href="https://github.com/izhaoo/hexo-theme-zhaoo">zhaoo</a></p></div>
+    
+  </div>
+</nav>
+  <main id="main">
+  <div class="article-wrap">
+    <div class="row container">
+      <div class="col-xl-3"></div>
+      <div class="col-xl-6"><article class="article">
+  <div class="wrap">
+    <section class="head">
+  <img   class="lazyload" data-original="/images/theme/post-image.jpg" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="  draggable="false">
+  <div class="head-mask">
+    <h1 class="head-title">Numpy笔记</h1>
+    <div class="head-info">
+      <span class="post-info-item"><i class="iconfont iconcalendar"></i>七月 15, 2021</span>
+      
+      <span class="post-info-item"><i class="iconfont iconfont-size"></i>3440</span>
+    </div>
+  </div>
+</section>
+    <section class="main">
+      <section class="content">
+        <h3 id="Numpy学习笔记"><a href="#Numpy学习笔记" class="headerlink" title="Numpy学习笔记"></a>Numpy学习笔记</h3><blockquote>
+<p>资料来源：Python知识手册，csdn</p>
+</blockquote>
+<ol>
+<li>常用list和tuple来创建ndarray数据类型</li>
+</ol>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">arr1 = np.array([<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>])<br>arr2 = np.array((<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>))<br></code></pre></td></tr></table></figure>
+<p>创建时，可以指定数值类型</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs python">a = np.arange(<span class="hljs-number">5</span>, dtype=<span class="hljs-built_in">float</span>)<br><span class="hljs-built_in">print</span>(a)<br><br>([<span class="hljs-number">0.</span>, <span class="hljs-number">1.</span>, <span class="hljs-number">2.</span>, <span class="hljs-number">3.</span>, <span class="hljs-number">4.</span>, <span class="hljs-number">5.</span>])<br>注意复数不可以转化为整形或者浮点型<br></code></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>reshape函数：将ndarray塑性</li>
+</ol>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs python">a = np.arange(<span class="hljs-number">8</span>).reshape(<span class="hljs-number">2</span>, <span class="hljs-number">4</span>)<br><span class="hljs-built_in">print</span>(a)<br><br>[[<span class="hljs-number">0</span> <span class="hljs-number">1</span> <span class="hljs-number">2</span> <span class="hljs-number">3</span>]<br> [<span class="hljs-number">4</span> <span class="hljs-number">5</span> <span class="hljs-number">6</span> <span class="hljs-number">7</span>]]<br></code></pre></td></tr></table></figure>
+<ol start="3">
+<li>属性<br>ndim输出ndarray的维度属性（行数），shape输出尺度属性<br>size属性保存ndarray中元素的数量<br>flat属性，返回一个numpy.flatiter的可迭代对象（亦可索引，赋值）</li>
+</ol>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-meta">&gt;&gt;&gt; </span>a = np.arange(<span class="hljs-number">6</span>).reshape(<span class="hljs-number">2</span>, <span class="hljs-number">3</span>)<br><span class="hljs-meta">&gt;&gt;&gt; </span>a<br>array([[<span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">2</span>],<br>       [<span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">5</span>]])<br><span class="hljs-meta">&gt;&gt;&gt; </span><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> a:<br>	<span class="hljs-built_in">print</span>(i)<br><br>	<br>[<span class="hljs-number">0</span> <span class="hljs-number">1</span> <span class="hljs-number">2</span>]<br>[<span class="hljs-number">3</span> <span class="hljs-number">4</span> <span class="hljs-number">5</span>]<br><span class="hljs-meta">&gt;&gt;&gt; </span>b = a.flat  <span class="hljs-comment"># flat让整个ndarray变得可迭代</span><br><span class="hljs-meta">&gt;&gt;&gt; </span><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> b:<br>	<span class="hljs-built_in">print</span>(i)<br><br>	<br><span class="hljs-number">0</span><br><span class="hljs-number">1</span><br><span class="hljs-number">2</span><br><span class="hljs-number">3</span><br><span class="hljs-number">4</span><br><span class="hljs-number">5</span><br></code></pre></td></tr></table></figure>
+<ol start="4">
+<li>ndarray可进行切片和索引，一维与list类似<br>二维情况如图</li>
+</ol>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-meta">&gt;&gt;&gt; </span>c = np.arange(<span class="hljs-number">12</span>).reshape(<span class="hljs-number">3</span>, <span class="hljs-number">4</span>)<br><span class="hljs-meta">&gt;&gt;&gt; </span>c<br>array([[ <span class="hljs-number">0</span>,  <span class="hljs-number">1</span>,  <span class="hljs-number">2</span>,  <span class="hljs-number">3</span>],<br>       [ <span class="hljs-number">4</span>,  <span class="hljs-number">5</span>,  <span class="hljs-number">6</span>,  <span class="hljs-number">7</span>],<br>       [ <span class="hljs-number">8</span>,  <span class="hljs-number">9</span>, <span class="hljs-number">10</span>, <span class="hljs-number">11</span>]])<br><span class="hljs-meta">&gt;&gt;&gt; </span>c[<span class="hljs-number">0</span>:<span class="hljs-number">3</span>, <span class="hljs-number">0</span>:<span class="hljs-number">2</span>]<br>array([[<span class="hljs-number">0</span>, <span class="hljs-number">1</span>],<br>       [<span class="hljs-number">4</span>, <span class="hljs-number">5</span>],<br>       [<span class="hljs-number">8</span>, <span class="hljs-number">9</span>]])<br><span class="hljs-meta">&gt;&gt;&gt; </span>c[<span class="hljs-number">1</span>:<span class="hljs-number">3</span>, <span class="hljs-number">0</span>:<span class="hljs-number">2</span>]<br>array([[<span class="hljs-number">4</span>, <span class="hljs-number">5</span>],<br>       [<span class="hljs-number">8</span>, <span class="hljs-number">9</span>]])<br></code></pre></td></tr></table></figure>
+<p>逗号前竖着索引，逗号后横着索引</p>
+<ol start="5">
+<li>array的叠加<br>水平叠加</li>
+</ol>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">np.hstack(matA, matB)<br></code></pre></td></tr></table></figure>
+<p>垂直叠加</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">np.vstack(matA, matB)<br></code></pre></td></tr></table></figure>
+<p>自定义方向</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">np.concatenate((matA, matB), axis=<span class="hljs-number">0</span>)<br></code></pre></td></tr></table></figure>
+<ol start="6">
+<li>array的拆分<br>split函数</li>
+<li>类型转换<br>数组转列表，用tolist函数</li>
+</ol>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">b.tolist()<br></code></pre></td></tr></table></figure>
+<p>将内容转化为指定类型</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">b.astype(<span class="hljs-built_in">float</span>)  <span class="hljs-comment"># 将b的每一项转化为浮点数类型</span><br></code></pre></td></tr></table></figure>
+<ol start="8">
+<li>常用统计函数<br>sum()求和<br>mean()均值<br>ptp()沿某个轴返回最大值减最小值<br>std()标准偏差<br>var()方差<br>cumsum()累加值<br>comprod()累乘值</li>
+<li>random.rand函数<br>给定维度生成[0，1)间的ndarray</li>
+</ol>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-meta">&gt;&gt;&gt; </span><span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np<br><span class="hljs-meta">&gt;&gt;&gt; </span>np.random.rand(<span class="hljs-number">4</span>,<span class="hljs-number">2</span>)<br>array([[<span class="hljs-number">0.45688739</span>, <span class="hljs-number">0.26886546</span>],<br>       [<span class="hljs-number">0.69148437</span>, <span class="hljs-number">0.61480271</span>],<br>       [<span class="hljs-number">0.37722378</span>, <span class="hljs-number">0.305412</span>  ],<br>       [<span class="hljs-number">0.79430114</span>, <span class="hljs-number">0.75512251</span>]])<br><span class="hljs-meta">&gt;&gt;&gt; </span>np.random.rand(<span class="hljs-number">5</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>)<br>array([[[<span class="hljs-number">0.75038532</span>, <span class="hljs-number">0.83388829</span>, <span class="hljs-number">0.62408375</span>],<br>        [<span class="hljs-number">0.46336842</span>, <span class="hljs-number">0.34015173</span>, <span class="hljs-number">0.53301729</span>]],<br><br>       [[<span class="hljs-number">0.26157672</span>, <span class="hljs-number">0.65139399</span>, <span class="hljs-number">0.47581856</span>],<br>        [<span class="hljs-number">0.61984685</span>, <span class="hljs-number">0.70623299</span>, <span class="hljs-number">0.28065171</span>]],<br><br>       [[<span class="hljs-number">0.19054782</span>, <span class="hljs-number">0.59329701</span>, <span class="hljs-number">0.05462034</span>],<br>        [<span class="hljs-number">0.26053959</span>, <span class="hljs-number">0.01264219</span>, <span class="hljs-number">0.40373975</span>]],<br><br>       [[<span class="hljs-number">0.32033322</span>, <span class="hljs-number">0.71297706</span>, <span class="hljs-number">0.70064409</span>],<br>        [<span class="hljs-number">0.98279322</span>, <span class="hljs-number">0.1686095</span> , <span class="hljs-number">0.46542026</span>]],<br><br>       [[<span class="hljs-number">0.34178765</span>, <span class="hljs-number">0.31608295</span>, <span class="hljs-number">0.71511896</span>],<br>        [<span class="hljs-number">0.01467071</span>, <span class="hljs-number">0.5376934</span> , <span class="hljs-number">0.20550826</span>]]])<br></code></pre></td></tr></table></figure>
+<ol start="10">
+<li><p>random.randn函数<br>返回一组给定维度的具有正态分布的ndarray</p>
+</li>
+<li><p>random.randint(low, high=None, size=None, dtype=’l’)函数<br>返回随机整数, low为下限，high为上限，size是维度，dtype是数据类型</p>
+</li>
+<li><p>生成随即小数的四种方法<br>random.random_sample<br>random.random<br>random.ranf<br>random.sample</p>
+</li>
+<li><p>random.choice(a, size=None, replace=True, p=None)函数<br>a表示数据的取值范围是0到a<br>size对应数组的维度<br>p是出现的概率</p>
+</li>
+</ol>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-meta">&gt;&gt;&gt; </span><span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np<br><span class="hljs-meta">&gt;&gt;&gt; </span>a = np.random.choice(<span class="hljs-number">7</span>,<span class="hljs-number">3</span>)<br><span class="hljs-meta">&gt;&gt;&gt; </span>a<br>array([<span class="hljs-number">4</span>, <span class="hljs-number">2</span>, <span class="hljs-number">1</span>])<br></code></pre></td></tr></table></figure>
+
+<ol start="14">
+<li>Meshgrid函数<br>若向量x为一行m列，y为一行n列。经过mesgrid函数变换之后，产生了对应的X，Y的维度是(n*m)。也就是说，最终结果都是(n·m)，依据x，y的长度不同，复制方式也会不同。</li>
+</ol>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-meta">&gt;&gt;&gt; </span>m,n = (<span class="hljs-number">5</span>,<span class="hljs-number">3</span>)<br><span class="hljs-meta">&gt;&gt;&gt; </span>x = np.linspace(<span class="hljs-number">0</span>,<span class="hljs-number">1</span>,m)<br><span class="hljs-meta">&gt;&gt;&gt; </span>y = np.linspace(<span class="hljs-number">0</span>,<span class="hljs-number">1</span>,n)<br><span class="hljs-meta">&gt;&gt;&gt; </span>X,Y = np.meshgrid(x,y)<br><span class="hljs-meta">&gt;&gt;&gt; </span>X<br>array([[<span class="hljs-number">0.</span>  , <span class="hljs-number">0.25</span>, <span class="hljs-number">0.5</span> , <span class="hljs-number">0.75</span>, <span class="hljs-number">1.</span>  ],<br>       [<span class="hljs-number">0.</span>  , <span class="hljs-number">0.25</span>, <span class="hljs-number">0.5</span> , <span class="hljs-number">0.75</span>, <span class="hljs-number">1.</span>  ],<br>       [<span class="hljs-number">0.</span>  , <span class="hljs-number">0.25</span>, <span class="hljs-number">0.5</span> , <span class="hljs-number">0.75</span>, <span class="hljs-number">1.</span>  ]])<br><span class="hljs-meta">&gt;&gt;&gt; </span>Y<br>array([[<span class="hljs-number">0.</span> , <span class="hljs-number">0.</span> , <span class="hljs-number">0.</span> , <span class="hljs-number">0.</span> , <span class="hljs-number">0.</span> ],<br>       [<span class="hljs-number">0.5</span>, <span class="hljs-number">0.5</span>, <span class="hljs-number">0.5</span>, <span class="hljs-number">0.5</span>, <span class="hljs-number">0.5</span>],<br>       [<span class="hljs-number">1.</span> , <span class="hljs-number">1.</span> , <span class="hljs-number">1.</span> , <span class="hljs-number">1.</span> , <span class="hljs-number">1.</span> ]])<br><span class="hljs-meta">&gt;&gt;&gt; </span>X.shape<br>(<span class="hljs-number">3</span>, <span class="hljs-number">5</span>)<br></code></pre></td></tr></table></figure>
+<p>补充：<br>flat函数：flat返回的是一个迭代器，可以用for访问数组每一个元素，不可打印。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> X.flat:<br>    <span class="hljs-built_in">print</span>(i)<br><br><span class="hljs-number">0.0</span><br><span class="hljs-number">0.25</span><br><span class="hljs-number">0.5</span><br><span class="hljs-number">0.75</span><br><span class="hljs-number">1.0</span><br><span class="hljs-number">0.0</span><br><span class="hljs-number">0.25</span><br><span class="hljs-number">0.5</span><br><span class="hljs-number">0.75</span><br><span class="hljs-number">1.0</span><br><span class="hljs-number">0.0</span><br><span class="hljs-number">0.25</span><br><span class="hljs-number">0.5</span><br><span class="hljs-number">0.75</span><br><span class="hljs-number">1.0</span><br><br></code></pre></td></tr></table></figure>
+<p>zip函数：将相同大小的对象对应位置元素打包成元组</p>
+<pre><code class="python">&gt;&gt;&gt;a = [1,2,3]
+&gt;&gt;&gt; b = [4,5,6]
+&gt;&gt;&gt; c = [4,5,6,7,8]
+&gt;&gt;&gt; zipped = zip(a,b)     # 打包为元组的列表
+[(1, 4), (2, 5), (3, 6)]
+&gt;&gt;&gt; zip(a,c)              # 元素个数与最短的列表一致
+[(1, 4), (2, 5), (3, 6)]
+&gt;&gt;&gt; zip(*zipped)          # 与 zip 相反，*zipped 可理解为解压，返回二维矩阵式
+[(1, 2, 3), (4, 5, 6)]
+</code></pre>
+
+      </section>
+      <section class="extra">
+        
+          <ul class="copyright">
+  
+    <li><strong>本文作者：</strong>Guo tianyu</li>
+    <li><strong>本文链接：</strong><a href="https://guotianyu-2020.github.io/2021/07/15/Numpy%E7%AC%94%E8%AE%B0/index.html" title="https:&#x2F;&#x2F;guotianyu-2020.github.io&#x2F;2021&#x2F;07&#x2F;15&#x2F;Numpy%E7%AC%94%E8%AE%B0&#x2F;index.html">https:&#x2F;&#x2F;guotianyu-2020.github.io&#x2F;2021&#x2F;07&#x2F;15&#x2F;Numpy%E7%AC%94%E8%AE%B0&#x2F;index.html</a></li>
+    <li><strong>版权声明：</strong>本博客所有文章均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" title="BY-NC-SA" target="_blank" rel="noopener">BY-NC-SA</a> 许可协议，转载请注明出处！</li>
+  
+</ul>
+        
+        
+          <section class="donate">
+  <div id="qrcode-donate">
+    <img   class="lazyload" data-original="https://pic.izhaoo.com/alipay.jpg" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" >
+  </div>
+  <div class="icon">
+    <a href="javascript:;" id="alipay"><i class="iconfont iconalipay"></i></a>
+    <a href="javascript:;" id="wechat"><i class="iconfont iconwechat-fill"></i></a>
+  </div>
+</section>
+        
+        
+  <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/numpy/" rel="tag">numpy</a></li></ul> 
+
+        
+  <nav class="nav">
+    <a href="/2021/07/15/python%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A13/"><i class="iconfont iconleft"></i>python面向对象3</a>
+    <a href="/2021/07/15/python%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A12/">python面向对象2<i class="iconfont iconright"></i></a>
+  </nav>
+
+      </section>
+      
+    </section>
+  </div>
+</article></div>
+      <div class="col-xl-3">
+        
+          
+  <aside class="toc-wrap">
+    <h3 class="toc-title">文章目录：</h3>
+    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Numpy%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0"><span class="toc-text">Numpy学习笔记</span></a></li></ol>
+  </aside>
+
+        
+      </div>
+    </div>
+  </div>
+</main>
+  
+
+<footer class="footer">
+  <div class="footer-social"><a 
+        href="tencent://message/?Menu=yes&uin=894519210 "
+        target="_blank"
+        class="footer-social-item"
+        onMouseOver="this.style.color= '#12B7F5'" 
+        onMouseOut="this.style.color='#33333D'">
+          <i class="iconfont  iconQQ "></i>
+      </a><a 
+        href="javascript:; "
+        target="_blank"
+        class="footer-social-item"
+        onMouseOver="this.style.color= '#09BB07'" 
+        onMouseOut="this.style.color='#33333D'">
+          <i class="iconfont  iconwechat-fill "></i>
+      </a><a 
+        href="https://www.instagram.com/izhaoo/ "
+        target="_blank"
+        class="footer-social-item"
+        onMouseOver="this.style.color= '#DA2E76'" 
+        onMouseOut="this.style.color='#33333D'">
+          <i class="iconfont  iconinstagram "></i>
+      </a><a 
+        href="https://github.com/zhaoo "
+        target="_blank"
+        class="footer-social-item"
+        onMouseOver="this.style.color= '#9f7be1'" 
+        onMouseOut="this.style.color='#33333D'">
+          <i class="iconfont  icongithub-fill "></i>
+      </a><a 
+        href="mailto:izhaoo@163.com "
+        target="_blank"
+        class="footer-social-item"
+        onMouseOver="this.style.color=#FF3B00" 
+        onMouseOut="this.style.color='#33333D'">
+          <i class="iconfont  iconmail"></i>
+      </a></div>
+  
+    <div class="footer-copyright"><p>Powered by <a target="_blank" href="https://hexo.io">Hexo</a>  |  Theme - <a target="_blank" href="https://github.com/izhaoo/hexo-theme-zhaoo">zhaoo</a></p></div>
+  
+</footer>
+  
+      <div class="fab fab-plus">
+    <i class="iconfont iconplus"></i>
+  </div>
+  
+  
+  <div class="fab fab-up">
+    <i class="iconfont iconcaret-up"></i>
+  </div>
+  
+  
+  
+    
+<script src="/js/color-mode.js"></script>
+
+  
+  
+</body>
+
+<script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+
+
+
+  
+<script src="https://cdn.bootcdn.net/ajax/libs/jquery.lazyload/1.9.1/jquery.lazyload.min.js"></script>
+
+
+
+
+  
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js"></script>
+
+
+
+
+
+
+  
+<script src="https://cdn.bootcdn.net/ajax/libs/jquery.qrcode/1.0/jquery.qrcode.min.js"></script>
+
+
+
+
+<script src="/js/utils.js"></script>
+<script src="/js/script.js"></script>
+
+
+
+
+
+
+
+  <script>
+    (function () {
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+      } else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+      }
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+</html>
