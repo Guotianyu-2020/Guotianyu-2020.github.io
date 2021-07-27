@@ -1,0 +1,393 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" color-mode=light>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>C语言链表的实现 - Hexo</title>
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="google" content="notranslate" />
+  
+  <meta name="description" content="
+本文实现了数据结构中链表的c语言表达，本且尝试创建一...">
+  <meta name="author" content="Guo tianyu">
+  <link rel="icon" href="/images/icons/favicon-16x16.png" type="image/png" sizes="16x16">
+  <link rel="icon" href="/images/icons/favicon-32x32.png" type="image/png" sizes="32x32">
+  <link rel="apple-touch-icon" href="/images/icons/apple-touch-icon.png" sizes="180x180">
+  <meta rel="mask-icon" href="/images/icons/stun-logo.svg" color="#333333">
+  
+    <meta rel="msapplication-TileImage" content="/images/icons/favicon-144x144.png">
+    <meta rel="msapplication-TileColor" content="#000000">
+  
+
+  
+<link rel="stylesheet" href="/css/style.css">
+
+
+  
+    
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1445822_r673sha78lq.css">
+
+  
+
+  
+    
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css">
+
+  
+
+  
+    
+      
+        
+        
+<link rel="stylesheet" href="https://cdn.bootcss.com/highlight.js/9.18.1/styles/xcode.min.css" name="highlight-style" mode="light">
+
+      
+        
+        
+<link rel="stylesheet" href="https://cdn.bootcss.com/highlight.js/9.18.1/styles/solarized-dark.min.css" name="highlight-style" mode="dark">
+
+      
+  
+
+  <script>
+    var CONFIG = window.CONFIG || {};
+    var ZHAOO = window.ZHAOO || {};
+    CONFIG = {
+      isHome: false,
+      fancybox: true,
+      pjax: false,
+      lazyload: {
+        enable: true,
+        only_post: 'false',
+        loading: '[object Object]'
+      },
+      donate: {
+        enable: true,
+        alipay: 'https://pic.izhaoo.com/alipay.jpg',
+        wechat: 'https://pic.izhaoo.com/wechat.jpg'
+      },
+      galleries: {
+        enable: true
+      },
+      fab: {
+        enable: true,
+        always_show: false
+      },
+      carrier: {
+        enable: true
+      },
+      daovoice: {
+        enable: false
+      },
+      preview: {
+        background: {
+          default: '',
+          api: ''
+        },
+        motto: {
+          default: '我在开了灯的床头下，想问问自己的心啊。',
+          typing: true,
+          api: 'https://v2.jinrishici.com/one.json',
+          data_contents: '["data","content"]'
+        },
+      },
+      qrcode: {
+        enable: true,
+        type: 'url',
+        image: 'https://pic.izhaoo.com/weapp-code.jpg',
+      },
+      toc: {
+        enable: true
+      },
+      scrollbar: {
+        type: 'default'
+      },
+      notification: {
+        enable: false,
+        delay: 4500,
+        list: '',
+        page_white_list: '',
+        page_black_list: ''
+      },
+      search: {
+        enable: false,
+        path: ''
+      }
+    }
+  </script>
+
+  
+
+  
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body class="lock-screen">
+  <div class="loading"></div>
+  
+    
+
+
+  <nav class="navbar">
+    <div class="left">
+      
+        <i class="iconfont iconhome j-navbar-back-home"></i>
+      
+      
+        <i class="iconfont iconqrcode j-navbar-qrcode"></i>
+      
+      
+        <i class="iconfont iconmoono" id="color-toggle" color-toggle="light"></i>
+      
+      
+    </div>
+    <div class="center">C语言链表的实现</div>
+    <div class="right">
+      <i class="iconfont iconmenu j-navbar-menu"></i>
+    </div>
+    
+      <div id="qrcode-navbar"></div>
+    
+  </nav>
+
+  
+  
+
+<nav class="menu">
+  <div class="menu-container">
+    <div class="menu-close">
+      <i class="iconfont iconbaseline-close-px"></i>
+    </div>
+    <ul class="menu-content"><li class="menu-item">
+        <a href="/ " class="underline "> 首页</a>
+      </li><li class="menu-item">
+        <a href="/galleries/ " class="underline "> 摄影</a>
+      </li><li class="menu-item">
+        <a href="/archives/ " class="underline "> 归档</a>
+      </li><li class="menu-item">
+        <a href="/tags/ " class="underline "> 标签</a>
+      </li><li class="menu-item">
+        <a href="/categories/ " class="underline "> 分类</a>
+      </li><li class="menu-item">
+        <a href="/about/ " class="underline "> 关于</a>
+      </li></ul>
+    
+      <div class="menu-copyright"><p>Powered by <a target="_blank" href="https://hexo.io">Hexo</a>  |  Theme - <a target="_blank" href="https://github.com/izhaoo/hexo-theme-zhaoo">zhaoo</a></p></div>
+    
+  </div>
+</nav>
+  <main id="main">
+  <div class="article-wrap">
+    <div class="row container">
+      <div class="col-xl-3"></div>
+      <div class="col-xl-6"><article class="article">
+  <div class="wrap">
+    <section class="head">
+  <img   class="lazyload" data-original="/images/theme/post-image.jpg" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="  draggable="false">
+  <div class="head-mask">
+    <h1 class="head-title">C语言链表的实现</h1>
+    <div class="head-info">
+      <span class="post-info-item"><i class="iconfont iconcalendar"></i>七月 26, 2021</span>
+      
+      <span class="post-info-item"><i class="iconfont iconfont-size"></i>7420</span>
+    </div>
+  </div>
+</section>
+    <section class="main">
+      <section class="content">
+        <blockquote>
+<p>本文实现了数据结构中链表的c语言表达，本且尝试创建一个完整文件而非单一的.c文件。使用的IDE是VS2019，作为c语言的初学者，许多地方做的不够完善还请海涵。在代码过程中遇到的问题与解答已附在代码中。</p>
+</blockquote>
+<h2 id="1-文件之间的“沟通”"><a href="#1-文件之间的“沟通”" class="headerlink" title="1.文件之间的“沟通”"></a>1.文件之间的“沟通”</h2><p>设置main.c文件作为主文件，single dir.c存放链表的各种函数，head.h是头文件。在main文件中要在开头调用head文件。格式：#include”head.h”。在head文件里主要存放定义好的结构体，函数声明。在存放函数的single dir文件中也要开头调用head文件。</p>
+<h2 id="2-代码部分"><a href="#2-代码部分" class="headerlink" title="2.代码部分"></a>2.代码部分</h2><p>所有函数只接受头指针。</p>
+<p>结构体定义：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-keyword">typedef</span> <span class="hljs-class"><span class="hljs-keyword">struct</span> &#123;</span><br>	<span class="hljs-keyword">char</span> name[<span class="hljs-number">20</span>];<br>	<span class="hljs-keyword">int</span> price;<br>	<span class="hljs-keyword">int</span> order;<br>&#125;BookInf;<br><br><br><span class="hljs-keyword">typedef</span> <span class="hljs-class"><span class="hljs-keyword">struct</span>  <span class="hljs-title">node</span>&#123;</span><br>	BookInf Book;<br>	<span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">node</span>* <span class="hljs-title">next</span>;</span><br>&#125;Node;<br></code></pre></td></tr></table></figure>
+
+<p>主函数部分：通过useall函数（位于single dir文件）作为一个接口，执行功能函数内容在useall里。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span><span class="hljs-meta-string">&lt;stdio.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span><span class="hljs-meta-string">&lt;stdlib.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span><span class="hljs-meta-string">&lt;string.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span><span class="hljs-meta-string">&quot;head.h&quot;</span></span><br><br><br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>&#123;<br>	Node* SDHead = (Node*)<span class="hljs-built_in">malloc</span>(<span class="hljs-keyword">sizeof</span>(Node));<br>	<span class="hljs-keyword">if</span> (SDHead) <br>	&#123;<br>		UseAll_SD(SDHead);<br>	&#125;<br>	<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>功能函数部分（写代码过程中的问题已经放到注释里面了）：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span><span class="hljs-meta-string">&quot;head.h&quot;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span><span class="hljs-meta-string">&lt;string.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span><span class="hljs-meta-string">&lt;stdlib.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span><span class="hljs-meta-string">&lt;stdio.h&gt;</span></span><br><br><span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span> n;  <span class="hljs-comment">//This n is to record times Add() is called so as to pass the order to p-&gt;Book.order.</span><br><br><br><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">Initialize</span><span class="hljs-params">(Node* head)</span>  <span class="hljs-comment">//If you want to keep this function running in main.c, use extern for its return object</span></span><br><span class="hljs-function"></span>&#123;										   <span class="hljs-comment">//The function Initalize change the value of the pointer</span><br>	strcpy_s(head-&gt;Book.name, <span class="hljs-number">20</span>,  <span class="hljs-string">&quot; &quot;</span>);<br>	head-&gt;Book.price = <span class="hljs-number">0</span>;  <span class="hljs-comment">//Node head&#x27;s data is empty.</span><br>	head-&gt;Book.order = <span class="hljs-number">0</span>;<br>	head-&gt;next = <span class="hljs-literal">NULL</span>;<br>&#125;<br><br><br><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">Add</span><span class="hljs-params">(Node* head)</span></span><br><span class="hljs-function"></span>&#123;<br>	<span class="hljs-keyword">char</span> receive_name[<span class="hljs-number">20</span>];<br>	<span class="hljs-keyword">int</span> receive_price;<br>	Node* last = head;<br>	Node* p = (Node*)<span class="hljs-built_in">malloc</span>(<span class="hljs-keyword">sizeof</span>(Node));<br>	<span class="hljs-keyword">int</span> i;<br>	<span class="hljs-keyword">if</span> (last &amp;&amp; p) &#123;<br>		p-&gt;Book.order = <span class="hljs-number">1</span>;<br>		<span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Please input the book name:\n&quot;</span>);<br>		gets_s(receive_name, <span class="hljs-number">20</span>);<br>		setvbuf(<span class="hljs-built_in">stdin</span>, <span class="hljs-literal">NULL</span>, _IOFBF, <span class="hljs-number">512</span>);  <span class="hljs-comment">//setvbuf is a function that clears the buffers.</span><br>		<span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Please input the price of te book:\n&quot;</span>);<br>		scanf_s(<span class="hljs-string">&quot;%d&quot;</span>, &amp;receive_price);<br>		setvbuf(<span class="hljs-built_in">stdin</span>, <span class="hljs-literal">NULL</span>, _IOFBF, <span class="hljs-number">512</span>);<br>		n += p-&gt;Book.order;<br>		p-&gt;Book.order = n;<br>		<span class="hljs-keyword">for</span> (i = <span class="hljs-number">0</span>; i &lt;= <span class="hljs-number">19</span>; i++) &#123;<br>			p-&gt;Book.name[i] = receive_name[i];  <span class="hljs-comment">//Both Book.name and receive_name are strings defined by arrays, use for loop to copy.</span><br>		&#125;<br>		p-&gt;Book.price = receive_price;<br>		p-&gt;next = <span class="hljs-literal">NULL</span>;<br>		<span class="hljs-keyword">if</span> (last) &#123;  <span class="hljs-comment">//At the beginning, last points to head. Head&#x27;s next area is NULL.</span><br>			<span class="hljs-keyword">while</span> (last-&gt;next) &#123;<br>				last = last-&gt;next;  <span class="hljs-comment">//To find the real last one.</span><br>			&#125;<br>			last-&gt;next = p;<br>		&#125;<br>		<span class="hljs-keyword">else</span> &#123;<br>			head-&gt;next = p;<br>		&#125;<br>		<span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;The last book is: %s\n&quot;</span>, p-&gt;Book.name);<br>		<span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;The price of the book is: %d\n&quot;</span>, p-&gt;Book.price);<br>		<span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;The order of the book is: %d\n&quot;</span>, p-&gt;Book.order);<br>	&#125;<br>&#125;<br><br><br><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">ShowList</span><span class="hljs-params">(Node* head)</span> </span><br><span class="hljs-function"></span>&#123;<br>	Node* pointer1 = head-&gt;next;<br>	<span class="hljs-keyword">do</span><br>	&#123;<br>		<span class="hljs-keyword">if</span> (pointer1) &#123;<br>			<span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Current information:\n&quot;</span>);<br>			<span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Book name: %s    Price: %d    Order: %d\n&quot;</span>, pointer1-&gt;Book.name, pointer1-&gt;Book.price, pointer1-&gt;Book.order);<br>			pointer1 = pointer1-&gt;next;<br>		&#125;<br>		<span class="hljs-keyword">else</span><br>		&#123;<br>			<span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;ERROR!&quot;</span>);<br>		&#125;		<br>	&#125; <span class="hljs-keyword">while</span> (pointer1);<br>&#125;<br><br><br><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">ListEmpty</span><span class="hljs-params">(Node* head)</span></span><br><span class="hljs-function"></span>&#123;<br>	<span class="hljs-keyword">if</span> (head-&gt;next)<br>	&#123;<br>		<span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;The list is not empty.\n&quot;</span>);<br>	&#125;<br>	<span class="hljs-keyword">else</span><br>	&#123;<br>		<span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;The list is empty.\n&quot;</span>);<br>	&#125;<br>&#125;<br><br><br><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">DestoryList</span><span class="hljs-params">(Node* head)</span></span><br><span class="hljs-function"></span>&#123;<br>	Node* p;<br>	<span class="hljs-keyword">while</span> (head)<br>	&#123;<br>		p = head;<br>		head = head-&gt;next;<br>		<span class="hljs-built_in">free</span>(p);<br>	&#125;<br>	<span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;The linked list is destoryed./n&quot;</span>);<br>&#125;<br><br><br><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">ClearList</span><span class="hljs-params">(Node* head)</span></span><br><span class="hljs-function"></span>&#123;<br>	Node* p, * q;<br>	p = head-&gt;next;<br>	<span class="hljs-keyword">while</span> (p)<br>	&#123;<br>		q = p-&gt;next;<br>		<span class="hljs-built_in">free</span>(p);<br>		p = q;<br>	&#125;<br>	<span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;The linked list is cleared./n&quot;</span>);<br>	head-&gt;next = <span class="hljs-literal">NULL</span>;<br>&#125;<br><br><br><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">ListLength</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span></span><br><span class="hljs-function"></span>&#123;<br>	<span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;The current length is %d\n&quot;</span>, n);<br>&#125;<br><br><br><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">GetElem</span><span class="hljs-params">(Node* head)</span></span><br><span class="hljs-function"></span>&#123;<br>	<span class="hljs-keyword">int</span> i, j = <span class="hljs-number">0</span>;<br>	Node* p = head;<br>	<span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Input the position you want to search:\n&quot;</span>);<br>	scanf_s(<span class="hljs-string">&quot;%d&quot;</span>, &amp;i);<br>	<span class="hljs-keyword">do</span><br>	&#123;<br>		p = p-&gt;next;<br>		j++;<br>	&#125;<span class="hljs-keyword">while</span> (i != j &amp;&amp; p);<br>	<span class="hljs-keyword">if</span> (p) <br>	&#123;<br>		<span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;The book at position %d is %s\n&quot;</span>, i, p-&gt;Book.name);<br>		<span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;The price is %d\n&quot;</span>, p-&gt;Book.price);<br>	&#125;<br>&#125;<br><br><br><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">LocateElem</span><span class="hljs-params">(Node* head)</span></span><br><span class="hljs-function"></span>&#123;<br>	Node* p = head;<br>	<span class="hljs-keyword">char</span> r_name[<span class="hljs-number">20</span>];<br>	<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>;<br>	<span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Input the book name:\n&quot;</span>);<br>	gets_s(r_name, <span class="hljs-number">20</span>);<br>	<span class="hljs-keyword">while</span> (p)<br>	&#123;<br>		<span class="hljs-keyword">if</span> (<span class="hljs-built_in">strcmp</span>(p-&gt;Book.name, r_name) == <span class="hljs-number">0</span>)<br>		&#123;<br>			<span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;The book you are searching for is at the position %d\n&quot;</span>, i);<br>			<span class="hljs-keyword">break</span>;<br>		&#125;<br>		<span class="hljs-keyword">if</span> (p-&gt;next == <span class="hljs-literal">NULL</span> &amp;&amp; <span class="hljs-built_in">strcmp</span>(p-&gt;Book.name, r_name) != <span class="hljs-number">0</span>)<br>		&#123;<br>			<span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Book %s is not found.&quot;</span>, r_name);<br>		&#125;<br>		i++;<br>		p = p-&gt;next;<br>	&#125;<br>&#125;<br><br><br><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">Insert</span><span class="hljs-params">(Node* head)</span></span><br><span class="hljs-function"></span>&#123;<br>	<span class="hljs-keyword">int</span> i, j, k = <span class="hljs-number">1</span>;<br>	<span class="hljs-keyword">int</span> l = <span class="hljs-number">0</span>;<br>	<span class="hljs-keyword">char</span> r_name[<span class="hljs-number">20</span>];<br>	Node* p = head;<br>	Node* <span class="hljs-keyword">new</span> = (Node*)<span class="hljs-built_in">malloc</span>(<span class="hljs-keyword">sizeof</span>(Node));<br>	<span class="hljs-keyword">if</span> (<span class="hljs-keyword">new</span>)<br>	&#123;<br>	<span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Input the position you want to insert:\n&quot;</span>);<br>	scanf_s(<span class="hljs-string">&quot;%d&quot;</span>, &amp;i);<br>	setvbuf(<span class="hljs-built_in">stdin</span>, <span class="hljs-literal">NULL</span>, _IOFBF, <span class="hljs-number">512</span>);<br>	<span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Input book name:\n&quot;</span>);<br>	gets_s(r_name, <span class="hljs-number">20</span>);<br>	setvbuf(<span class="hljs-built_in">stdin</span>, <span class="hljs-literal">NULL</span>, _IOFBF, <span class="hljs-number">512</span>);<br>	<span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Input the price of the book:\n&quot;</span>);<br>	scanf_s(<span class="hljs-string">&quot;%d&quot;</span>, &amp;j);<br>	setvbuf(<span class="hljs-built_in">stdin</span>, <span class="hljs-literal">NULL</span>, _IOFBF, <span class="hljs-number">512</span>);<br>	<span class="hljs-keyword">for</span> (l = <span class="hljs-number">0</span>; l &lt;= <span class="hljs-number">19</span>; l++)<br>	&#123;<br>		<span class="hljs-keyword">new</span>-&gt;Book.name[l] = r_name[l];<br>	&#125;<br>	<span class="hljs-keyword">new</span>-&gt;Book.order = i;<br>	<span class="hljs-keyword">new</span>-&gt;Book.price = j;<br>	<span class="hljs-keyword">while</span> (p &amp;&amp; k &lt; i)  <span class="hljs-comment">// Find the position i - 1</span><br>	&#123;<br>		p = p-&gt;next;<br>		k++;<br>	&#125;<br>	<span class="hljs-keyword">if</span> (p)<br>	&#123;<br>		<span class="hljs-keyword">new</span>-&gt;next = p-&gt;next;<br>		p-&gt;next = <span class="hljs-keyword">new</span>;  <span class="hljs-comment">//Q1: Why this line changes the content of linked list.	</span><br>		p = p-&gt;next-&gt;next;  <span class="hljs-comment">//Q1: Why this line changes the content of linked list.</span><br>	&#125;<br><br>	<span class="hljs-keyword">while</span> (p)<br>	&#123;<br>		p-&gt;Book.order++;<br>		p = p-&gt;next;<br>	&#125;<br>	&#125;<br>&#125;<br><br><br><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">ElemDelete</span><span class="hljs-params">(Node* head)</span></span><br><span class="hljs-function"></span>&#123;<br>	Node* p = head;<br>	Node* q;<br>	<span class="hljs-keyword">int</span> i, j = <span class="hljs-number">0</span>;<br>	<span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Input the posiotion you want to delete:&quot;</span>);<br>	scanf_s(<span class="hljs-string">&quot;%d&quot;</span>, &amp;i);<br>	<span class="hljs-keyword">do</span><br>	&#123;<br>		p = p-&gt;next;<br>		j++;<br>	&#125; <span class="hljs-keyword">while</span> ((i - <span class="hljs-number">1</span>) != j &amp;&amp; p);<br>	<span class="hljs-keyword">if</span> (p)<br>	&#123;<br>		q = p-&gt;next;<br>		p-&gt;next = q-&gt;next;<br>		p-&gt;next-&gt;Book.order -= <span class="hljs-number">1</span>;<br>		<span class="hljs-built_in">free</span>(q);<br>	&#125;<br>&#125;<br><br><br><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">UseAll_SD</span><span class="hljs-params">(Node* head)</span></span><br><span class="hljs-function"></span>&#123;<br>	Initialize(head);<br>	Add(head);<br>	Add(head);<br>	Add(head);<br>	ShowList(head);<br>	Insert(head);<br>	ShowList(head);<br>	ElemDelete(head);<br>	ShowList(head);<br>	GetElem(head);<br>	ClearList(head);<br>	ShowList(head);<br>&#125;<br><br></code></pre></td></tr></table></figure>
+
+<p>头文件：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-meta-keyword">ifndef</span> _Initialize_H_</span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">ifndef</span> _Add_H_</span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> _Initialize_H_</span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> _Add_H_</span><br><br><br><span class="hljs-keyword">typedef</span> <span class="hljs-class"><span class="hljs-keyword">struct</span> &#123;</span><br>	<span class="hljs-keyword">char</span> name[<span class="hljs-number">20</span>];<br>	<span class="hljs-keyword">int</span> price;<br>	<span class="hljs-keyword">int</span> order;<br>&#125;BookInf;<br><br><br><span class="hljs-keyword">typedef</span> <span class="hljs-class"><span class="hljs-keyword">struct</span>  <span class="hljs-title">node</span>&#123;</span><br>	BookInf Book;<br>	<span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">node</span>* <span class="hljs-title">next</span>;</span><br>&#125;Node;<br><br><br><br><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">Initialize</span><span class="hljs-params">(Node* head)</span></span>;<br><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">Add</span><span class="hljs-params">(Node* head)</span></span>;<br><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">ShowList</span><span class="hljs-params">(Node* head)</span></span>;<br><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">ListEmpty</span><span class="hljs-params">(Node* head)</span></span>;<br><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">DestoryList</span><span class="hljs-params">(Node* head)</span></span>;<br><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">ClearList</span><span class="hljs-params">(Node* head)</span></span>;<br><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">ListLength</span><span class="hljs-params">(head)</span></span>;<br><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">GetElem</span><span class="hljs-params">(Node* head)</span></span>;<br><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">LocateElem</span><span class="hljs-params">(Node* head)</span></span>;<br><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">Insert</span><span class="hljs-params">(Node* head)</span></span>;<br><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">ElemDelete</span><span class="hljs-params">(Node* head)</span></span>;<br><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">UseAll_SD</span><span class="hljs-params">(Node* head)</span></span>;<br><span class="hljs-meta">#<span class="hljs-meta-keyword">endif</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">endif</span></span><br></code></pre></td></tr></table></figure>
+
+<h2 id="3-反思与改进"><a href="#3-反思与改进" class="headerlink" title="3.反思与改进"></a>3.反思与改进</h2><p>1.对于extern的使用方法不明确，一开始以为必须加，但是发现不加也没什么影响。</p>
+<p>2.对于初始化函数的执行很模糊。经提问得知main函数里必须直接分配空间，局部变量才在内部分配。一般的数据结构不需要人为分配，比如整数，但是像结构体指针这样的就需要。</p>
+
+      </section>
+      <section class="extra">
+        
+          <ul class="copyright">
+  
+    <li><strong>本文作者：</strong>Guo tianyu</li>
+    <li><strong>本文链接：</strong><a href="https://guotianyu-2020.github.io/2021/07/26/C%E8%AF%AD%E8%A8%80%E9%93%BE%E8%A1%A8%E7%9A%84%E5%AE%9E%E7%8E%B0/index.html" title="https:&#x2F;&#x2F;guotianyu-2020.github.io&#x2F;2021&#x2F;07&#x2F;26&#x2F;C%E8%AF%AD%E8%A8%80%E9%93%BE%E8%A1%A8%E7%9A%84%E5%AE%9E%E7%8E%B0&#x2F;index.html">https:&#x2F;&#x2F;guotianyu-2020.github.io&#x2F;2021&#x2F;07&#x2F;26&#x2F;C%E8%AF%AD%E8%A8%80%E9%93%BE%E8%A1%A8%E7%9A%84%E5%AE%9E%E7%8E%B0&#x2F;index.html</a></li>
+    <li><strong>版权声明：</strong>本博客所有文章均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" title="BY-NC-SA" target="_blank" rel="noopener">BY-NC-SA</a> 许可协议，转载请注明出处！</li>
+  
+</ul>
+        
+        
+          <section class="donate">
+  <div id="qrcode-donate">
+    <img   class="lazyload" data-original="https://pic.izhaoo.com/alipay.jpg" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" >
+  </div>
+  <div class="icon">
+    <a href="javascript:;" id="alipay"><i class="iconfont iconalipay"></i></a>
+    <a href="javascript:;" id="wechat"><i class="iconfont iconwechat-fill"></i></a>
+  </div>
+</section>
+        
+        
+  <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/c%E8%AF%AD%E8%A8%80%E3%80%81%E9%93%BE%E8%A1%A8/" rel="tag">c语言、链表</a></li></ul> 
+
+        
+  <nav class="nav">
+    <a></a>
+    <a href="/2021/07/15/C%E8%AF%AD%E8%A8%80%E9%A1%BA%E5%BA%8F%E8%A1%A8%E7%9A%84%E5%AE%9E%E7%8E%B0/">C语言顺序表的实现<i class="iconfont iconright"></i></a>
+  </nav>
+
+      </section>
+      
+    </section>
+  </div>
+</article></div>
+      <div class="col-xl-3">
+        
+          
+  <aside class="toc-wrap">
+    <h3 class="toc-title">文章目录：</h3>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E6%96%87%E4%BB%B6%E4%B9%8B%E9%97%B4%E7%9A%84%E2%80%9C%E6%B2%9F%E9%80%9A%E2%80%9D"><span class="toc-text">1.文件之间的“沟通”</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E4%BB%A3%E7%A0%81%E9%83%A8%E5%88%86"><span class="toc-text">2.代码部分</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E5%8F%8D%E6%80%9D%E4%B8%8E%E6%94%B9%E8%BF%9B"><span class="toc-text">3.反思与改进</span></a></li></ol>
+  </aside>
+
+        
+      </div>
+    </div>
+  </div>
+</main>
+  
+
+<footer class="footer">
+  <div class="footer-social"><a 
+        href="tencent://message/?Menu=yes&uin=894519210 "
+        target="_blank"
+        class="footer-social-item"
+        onMouseOver="this.style.color= '#12B7F5'" 
+        onMouseOut="this.style.color='#33333D'">
+          <i class="iconfont  iconQQ "></i>
+      </a><a 
+        href="javascript:; "
+        target="_blank"
+        class="footer-social-item"
+        onMouseOver="this.style.color= '#09BB07'" 
+        onMouseOut="this.style.color='#33333D'">
+          <i class="iconfont  iconwechat-fill "></i>
+      </a><a 
+        href="https://www.instagram.com/izhaoo/ "
+        target="_blank"
+        class="footer-social-item"
+        onMouseOver="this.style.color= '#DA2E76'" 
+        onMouseOut="this.style.color='#33333D'">
+          <i class="iconfont  iconinstagram "></i>
+      </a><a 
+        href="https://github.com/zhaoo "
+        target="_blank"
+        class="footer-social-item"
+        onMouseOver="this.style.color= '#9f7be1'" 
+        onMouseOut="this.style.color='#33333D'">
+          <i class="iconfont  icongithub-fill "></i>
+      </a><a 
+        href="mailto:izhaoo@163.com "
+        target="_blank"
+        class="footer-social-item"
+        onMouseOver="this.style.color=#FF3B00" 
+        onMouseOut="this.style.color='#33333D'">
+          <i class="iconfont  iconmail"></i>
+      </a></div>
+  
+    <div class="footer-copyright"><p>Powered by <a target="_blank" href="https://hexo.io">Hexo</a>  |  Theme - <a target="_blank" href="https://github.com/izhaoo/hexo-theme-zhaoo">zhaoo</a></p></div>
+  
+</footer>
+  
+      <div class="fab fab-plus">
+    <i class="iconfont iconplus"></i>
+  </div>
+  
+  
+  <div class="fab fab-up">
+    <i class="iconfont iconcaret-up"></i>
+  </div>
+  
+  
+  
+    
+<script src="/js/color-mode.js"></script>
+
+  
+  
+</body>
+
+<script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+
+
+
+  
+<script src="https://cdn.bootcdn.net/ajax/libs/jquery.lazyload/1.9.1/jquery.lazyload.min.js"></script>
+
+
+
+
+  
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js"></script>
+
+
+
+
+
+
+  
+<script src="https://cdn.bootcdn.net/ajax/libs/jquery.qrcode/1.0/jquery.qrcode.min.js"></script>
+
+
+
+
+<script src="/js/utils.js"></script>
+<script src="/js/script.js"></script>
+
+
+
+
+
+
+
+  <script>
+    (function () {
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+      } else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+      }
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+</html>
