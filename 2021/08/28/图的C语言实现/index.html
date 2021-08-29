@@ -1,0 +1,460 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" color-mode=light>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>图的C语言实现 - 小郭的个人博客</title>
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="google" content="notranslate" />
+  
+  <meta name="description" content="
+本文使用C语言完成图的创建（邻接矩阵和邻接表两种方法...">
+  <meta name="author" content="Guo tianyu">
+  <link rel="icon" href="/images/icons/ww.png" type="image/png" sizes="16x16">
+  <link rel="icon" href="/images/icons/ww.png" type="image/png" sizes="32x32">
+  <link rel="apple-touch-icon" href="/images/icons/ww.png" sizes="180x180">
+  <meta rel="mask-icon" href="/images/icons/ww.png" color="#333333">
+  
+    <meta rel="msapplication-TileImage" content="/images/icons/ww.png">
+    <meta rel="msapplication-TileColor" content="#000000">
+  
+
+  
+<link rel="stylesheet" href="/css/style.css">
+
+
+  
+    
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1445822_r673sha78lq.css">
+
+  
+
+  
+    
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css">
+
+  
+
+  
+    
+      
+        
+        
+<link rel="stylesheet" href="https://cdn.bootcss.com/highlight.js/9.18.1/styles/xcode.min.css" name="highlight-style" mode="light">
+
+      
+        
+        
+<link rel="stylesheet" href="https://cdn.bootcss.com/highlight.js/9.18.1/styles/solarized-dark.min.css" name="highlight-style" mode="dark">
+
+      
+  
+
+  <script>
+    var CONFIG = window.CONFIG || {};
+    var ZHAOO = window.ZHAOO || {};
+    CONFIG = {
+      isHome: false,
+      fancybox: true,
+      pjax: false,
+      lazyload: {
+        enable: false,
+        only_post: 'false',
+        loading: '[object Object]'
+      },
+      donate: {
+        enable: false,
+        alipay: 'https://pic.izhaoo.com/alipay.jpg',
+        wechat: 'https://pic.izhaoo.com/wechat.jpg'
+      },
+      galleries: {
+        enable: false
+      },
+      fab: {
+        enable: true,
+        always_show: false
+      },
+      carrier: {
+        enable: true
+      },
+      daovoice: {
+        enable: false
+      },
+      preview: {
+        background: {
+          default: '',
+          api: ''
+        },
+        motto: {
+          default: '相与枕藉乎舟中，不知东方之既白',
+          typing: true,
+          api: '',
+          data_contents: '["data","content"]'
+        },
+      },
+      qrcode: {
+        enable: true,
+        type: 'image',
+        image: '/images/theme/wechat.jpg',
+      },
+      toc: {
+        enable: true
+      },
+      scrollbar: {
+        type: 'default'
+      },
+      notification: {
+        enable: false,
+        delay: 4500,
+        list: '',
+        page_white_list: '',
+        page_black_list: ''
+      },
+      search: {
+        enable: false,
+        path: ''
+      }
+    }
+  </script>
+
+  
+
+  
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body class="lock-screen">
+  <div class="loading"></div>
+  
+    
+
+
+  <nav class="navbar">
+    <div class="left">
+      
+        <i class="iconfont iconhome j-navbar-back-home"></i>
+      
+      
+        <i class="iconfont iconqrcode j-navbar-qrcode"></i>
+      
+      
+        <i class="iconfont iconmoono" id="color-toggle" color-toggle="light"></i>
+      
+      
+    </div>
+    <div class="center">图的C语言实现</div>
+    <div class="right">
+      <i class="iconfont iconmenu j-navbar-menu"></i>
+    </div>
+    
+      <div id="qrcode-navbar"></div>
+    
+  </nav>
+
+  
+  
+
+<nav class="menu">
+  <div class="menu-container">
+    <div class="menu-close">
+      <i class="iconfont iconbaseline-close-px"></i>
+    </div>
+    <ul class="menu-content"><li class="menu-item">
+        <a href="/ " class="underline "> 首页</a>
+      </li><li class="menu-item">
+        <a href="/galleries/ " class="underline "> 摄影</a>
+      </li><li class="menu-item">
+        <a href="/archives/ " class="underline "> 归档</a>
+      </li><li class="menu-item">
+        <a href="/tags/ " class="underline "> 标签</a>
+      </li><li class="menu-item">
+        <a href="/categories/ " class="underline "> 分类</a>
+      </li><li class="menu-item">
+        <a href="/about/ " class="underline "> 关于</a>
+      </li></ul>
+    
+      <div class="menu-copyright"><p>Powered by <a target="_blank" href="https://hexo.io">Hexo</a>  |  Theme - <a target="_blank" href="https://github.com/izhaoo/hexo-theme-zhaoo">zhaoo</a></p></div>
+    
+  </div>
+</nav>
+  <main id="main">
+  <div class="article-wrap">
+    <div class="row container">
+      <div class="col-xl-3"></div>
+      <div class="col-xl-6"><article class="article">
+  <div class="wrap">
+    <section class="head">
+  <img src="/images/post/14.jpg" draggable="false">
+  <div class="head-mask">
+    <h1 class="head-title">图的C语言实现</h1>
+    <div class="head-info">
+      <span class="post-info-item"><i class="iconfont iconcalendar"></i>八月 28, 2021</span>
+      
+        <span class="post-info-item">
+          <i class="iconfont iconeye"></i><span id="/2021/08/28/%E5%9B%BE%E7%9A%84C%E8%AF%AD%E8%A8%80%E5%AE%9E%E7%8E%B0/" class="leancloud" data-flag-title="图的C语言实现"></span>
+        </span>
+      
+      <span class="post-info-item"><i class="iconfont iconfont-size"></i>6811</span>
+    </div>
+  </div>
+</section>
+    <section class="main">
+      <section class="content">
+        <blockquote>
+<p>本文使用C语言完成图的创建（邻接矩阵和邻接表两种方法）与两种遍历方式（深度优先：DFS与广度优先：BFS）。</p>
+</blockquote>
+<h2 id="1-代码部分"><a href="#1-代码部分" class="headerlink" title="1.代码部分"></a>1.代码部分</h2><h3 id="1-1图的创建"><a href="#1-1图的创建" class="headerlink" title="1.1图的创建"></a>1.1图的创建</h3><h5 id="（1）用邻接矩阵创建"><a href="#（1）用邻接矩阵创建" class="headerlink" title="（1）用邻接矩阵创建"></a>（1）用邻接矩阵创建</h5><p>结构体定义：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> MVNum 20</span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> MaxInt 32767</span><br><span class="hljs-keyword">typedef</span> <span class="hljs-keyword">char</span> vertextype;<br><span class="hljs-keyword">typedef</span> <span class="hljs-keyword">int</span> arctype;<br><br><br><span class="hljs-keyword">typedef</span> <span class="hljs-class"><span class="hljs-keyword">struct</span> &#123;</span>  <span class="hljs-comment">// Using matrics.</span><br>	vertextype vex[MVNum];<br>	arctype arc[MVNum][MVNum];<br>	<span class="hljs-keyword">int</span> vexnum;<br>	<span class="hljs-keyword">int</span> arcnum;<br>&#125;AMGraph;<br></code></pre></td></tr></table></figure>
+
+<p>分别使用一维数组vex创建顶点集，二维数组arc创建边集（二维数组的x，y存放边的两个点，数值本身存放权值）</p>
+<p>传入AMGraph指针开始创建。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">CreatUDN</span><span class="hljs-params">(AMGraph* g)</span>  <span class="hljs-comment">// Creat with matrics.</span></span><br><span class="hljs-function"></span>&#123;<br>	<span class="hljs-keyword">int</span> vnum = <span class="hljs-number">0</span>, anum = <span class="hljs-number">0</span>;<br>	<span class="hljs-keyword">char</span> a, node1, node2;<br>	<span class="hljs-keyword">int</span> i, j, k, weight, pos1, pos2;<br>	<span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Input vexnum: \n&quot;</span>);<br>	scanf_s(<span class="hljs-string">&quot;%d&quot;</span>, &amp;vnum);<br>	a = getchar();<br>	<span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Input arcnum: \n&quot;</span>);<br>	scanf_s(<span class="hljs-string">&quot;%d&quot;</span>, &amp;anum);<br>	a = getchar();<br>	g-&gt;vexnum = vnum;  <span class="hljs-comment">// Assert value.</span><br>	g-&gt;arcnum = anum;<br>	<span class="hljs-keyword">for</span> (i = <span class="hljs-number">0</span>; i &lt; g-&gt;vexnum; ++i)<br>	&#123;<br>		<span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Input node %d.\n&quot;</span>, i + <span class="hljs-number">1</span>);<br>		scanf_s(<span class="hljs-string">&quot;%c&quot;</span>, &amp;(g-&gt;vex[i]), <span class="hljs-number">1</span>);<br>		a = getchar();<br>	&#125;<br>	<span class="hljs-keyword">for</span> (i = <span class="hljs-number">0</span>; i &lt; g-&gt;vexnum; i++)<br>	&#123;<br>		<span class="hljs-keyword">for</span> (j = <span class="hljs-number">0</span>; j &lt; g-&gt;vexnum; j++)<br>		&#123;<br>			g-&gt;arc[i][j] = <span class="hljs-number">0</span>;  <span class="hljs-comment">// Initialize.</span><br>		&#125;<br>	&#125;<br>	<span class="hljs-keyword">for</span> (k = <span class="hljs-number">0</span>; k &lt; g-&gt;arcnum; ++k)<br>	&#123;<br>		<span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Input the two nodes and weight:\n&quot;</span>);<br>		scanf_s(<span class="hljs-string">&quot;%c, %c, %d&quot;</span>, &amp;node1, <span class="hljs-number">1</span>, &amp;node2, <span class="hljs-number">1</span>, &amp;weight);<br>		a = getchar();<br>		pos1 = LocateVex(g, node1);<br>		pos2 = LocateVex(g, node2);<br>		g-&gt;arc[pos1][pos2] = weight;<br>		g-&gt;arc[pos2][pos1] = weight;<br>	&#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>其中的LocateVex函数定义如下：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">LocateVex</span><span class="hljs-params">(AMGraph* g, vertextype u)</span></span><br><span class="hljs-function"></span>&#123;<br>	<span class="hljs-keyword">int</span> i;<br>	<span class="hljs-keyword">for</span> (i = <span class="hljs-number">0</span>; i &lt; g-&gt;vexnum; ++i)<br>	&#123;<br>		<span class="hljs-keyword">if</span> (u == g-&gt;vex[i])<br>		&#123;<br>			<span class="hljs-keyword">return</span> i;<br>		&#125;<br>		<span class="hljs-keyword">else</span><br>		&#123;<br>			<span class="hljs-keyword">continue</span>;<br>		&#125;<br>	&#125;<br>	<span class="hljs-keyword">return</span> <span class="hljs-number">-1</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p><strong>（2）用邻接表创建</strong></p>
+<p>结构体定义：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-keyword">typedef</span> <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">Arcnode</span> &#123;</span><br>	<span class="hljs-keyword">int</span> adjvex;<br>	<span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">Arcnode</span>* <span class="hljs-title">nextarc</span>;</span><br>	<span class="hljs-keyword">int</span> otherinfo;<br>&#125;Arcnode;<br><br><br><span class="hljs-keyword">typedef</span> <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">VNode</span>&#123;</span><br>	vertextype data;<br>	Arcnode* firstarc;<br>&#125;VNode, AdjList[MVNum];<br><br><br><span class="hljs-keyword">typedef</span> <span class="hljs-class"><span class="hljs-keyword">struct</span> &#123;</span>  <span class="hljs-comment">// Using linked list.</span><br>	AdjList vertices;<br>	<span class="hljs-keyword">int</span> vexnum;<br>	<span class="hljs-keyword">int</span> arcnum;<br>&#125;ALGraph;<br></code></pre></td></tr></table></figure>
+
+<p>VNode是每一个顶点对应的链表的头节点，Arcnode是其他节点。ALGraph是由头节点形成的线性表。</p>
+<p>传入ALGraph指针开始创建：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">CreatUDN2</span><span class="hljs-params">(ALGraph* g)</span></span><br><span class="hljs-function"></span>&#123;<br>	<span class="hljs-keyword">int</span> vnum = <span class="hljs-number">0</span>, anum = <span class="hljs-number">0</span>;<br>	<span class="hljs-keyword">char</span> a, node1, node2;<br>	<span class="hljs-keyword">int</span> i, k, pos1, pos2;<br>	<span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Input vexnum: \n&quot;</span>);<br>	scanf_s(<span class="hljs-string">&quot;%d&quot;</span>, &amp;vnum);<br>	a = getchar();<br>	<span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Input arcnum: \n&quot;</span>);<br>	scanf_s(<span class="hljs-string">&quot;%d&quot;</span>, &amp;anum);<br>	a = getchar();<br>	g-&gt;vexnum = vnum;<br>	g-&gt;arcnum = anum;<br>	<span class="hljs-keyword">for</span> (i = <span class="hljs-number">0</span>; i &lt; g-&gt;vexnum; ++i)<br>	&#123;<br>		<span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Input node %d.\n&quot;</span>, i + <span class="hljs-number">1</span>);<br>		scanf_s(<span class="hljs-string">&quot;%c&quot;</span>, &amp;(g-&gt;vertices[i].data), <span class="hljs-number">1</span>);<br>		a = getchar();<br>		g-&gt;vertices[i].firstarc = <span class="hljs-literal">NULL</span>;<br>	&#125;<br>	<span class="hljs-keyword">for</span> (k = <span class="hljs-number">0</span>; k &lt; g-&gt;arcnum; ++k)<br>	&#123;<br>		<span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Input the two nodes:\n&quot;</span>);<br>		scanf_s(<span class="hljs-string">&quot;%c, %c&quot;</span>, &amp;node1, <span class="hljs-number">1</span>, &amp;node2, <span class="hljs-number">1</span>);<br>		a = getchar();<br>		pos1 = LocateVex2(g, node1);<br>		pos2 = LocateVex2(g, node2);<br>		Arcnode* p1 = (Arcnode*)<span class="hljs-built_in">malloc</span>(<span class="hljs-keyword">sizeof</span>(Arcnode));<br>		p1-&gt;adjvex = pos2;<br>		p1-&gt;nextarc = g-&gt;vertices[pos1].firstarc;<br>		g-&gt;vertices[pos1].firstarc = p1;<br>		<span class="hljs-comment">// Use the following lines to creat none direction graph.</span><br>		Arcnode* p2 = (Arcnode*)<span class="hljs-built_in">malloc</span>(<span class="hljs-keyword">sizeof</span>(Arcnode));<br>		p2-&gt;adjvex = pos1;<br>		p2-&gt;nextarc = g-&gt;vertices[pos2].firstarc;<br>		g-&gt;vertices[pos2].firstarc = p2;<br>	&#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>其中LocateVex2函数：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">LocateVex2</span><span class="hljs-params">(ALGraph*g, vertextype u)</span> </span><br><span class="hljs-function"></span>&#123;<br>	<span class="hljs-keyword">int</span> i;<br>	<span class="hljs-keyword">for</span> (i = <span class="hljs-number">0</span>; i &lt; g-&gt;vexnum; i++)<br>	&#123;<br>		<span class="hljs-keyword">if</span> (u == g-&gt;vertices[i].data)<br>		&#123;<br>			<span class="hljs-keyword">return</span> i;<br>		&#125;<br>		<span class="hljs-keyword">else</span> <br>			<span class="hljs-keyword">continue</span>;<br>		&#125;<br>		&#123;<br>	&#125;<br>	<span class="hljs-keyword">return</span> <span class="hljs-number">-1</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="1-2图的遍历"><a href="#1-2图的遍历" class="headerlink" title="1.2图的遍历"></a>1.2图的遍历</h3><h5 id="（1）深度优先算法（递归思想）"><a href="#（1）深度优先算法（递归思想）" class="headerlink" title="（1）深度优先算法（递归思想）"></a>（1）深度优先算法（递归思想）</h5><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">DFS</span><span class="hljs-params">(AMGraph* g, <span class="hljs-keyword">int</span>* visited, <span class="hljs-keyword">int</span> v)</span>  <span class="hljs-comment">// Using matrics.</span></span><br><span class="hljs-function"></span>&#123;<br>	<span class="hljs-keyword">int</span> w;<br>	<span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%c &quot;</span>, g-&gt;vex[v]);<br>	visited[v] = <span class="hljs-number">1</span>;<br>	<span class="hljs-keyword">for</span> (w = <span class="hljs-number">0</span>; w &lt; g-&gt;vexnum; w++)<br>	&#123;<br>		<span class="hljs-keyword">if</span> ((g-&gt;arc[v][w] != <span class="hljs-number">0</span>) &amp;&amp; (visited[w])!=<span class="hljs-number">1</span>)<br>		&#123;<br>			DFS(g, visited, w);<br>		&#125;<br>	&#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p><strong>（2）广度优先算法</strong></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">BFS</span><span class="hljs-params">(ALGraph* g, <span class="hljs-keyword">int</span>* visited, <span class="hljs-keyword">int</span> v)</span></span><br><span class="hljs-function"></span>&#123;<br>	<span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%c &quot;</span>, g-&gt;vertices[v].data);<br>	visited[v] = <span class="hljs-number">1</span>;<br>	Queue* que = Initial();<br>	EnQueue(que, v);<br>	<span class="hljs-keyword">while</span> (QueueEmpty(que) == <span class="hljs-number">0</span>)<br>	&#123;<br>		<span class="hljs-keyword">int</span> u = DeQueue(que);<br>		<span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> w = FirstAdjVex(g, u); w &gt;= <span class="hljs-number">0</span>; w = NextAdjVex(g, u, w))<br>		&#123;<br>			<span class="hljs-keyword">if</span> (visited[w] != <span class="hljs-number">1</span>)<br>			&#123;<br>				<span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%c &quot;</span>, g-&gt;vertices[w].data);<br>				visited[w] = <span class="hljs-number">1</span>;<br>				EnQueue(que, w);<br>			&#125;<br>			<span class="hljs-keyword">else</span><br>			&#123;<br>				<span class="hljs-keyword">continue</span>;<br>			&#125;<br>		&#125;<br>	&#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>其中用到的函数：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">FirstAdjVex</span><span class="hljs-params">(ALGraph* g, <span class="hljs-keyword">int</span> u)</span></span><br><span class="hljs-function"></span>&#123;<br>	<span class="hljs-keyword">int</span> c = g-&gt;vertices[u].firstarc-&gt;adjvex;<br>	<span class="hljs-keyword">return</span> c;<br>&#125;<br><br><br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">NextAdjVex</span><span class="hljs-params">(ALGraph* g, <span class="hljs-keyword">int</span> u, <span class="hljs-keyword">int</span> w)</span></span><br><span class="hljs-function"></span>&#123;<br>	Arcnode *p = g-&gt;vertices[u].firstarc;<br>	<span class="hljs-keyword">if</span> (p)<br>	&#123;<br>		<span class="hljs-keyword">while</span> (p)<br>		&#123;<br>			<span class="hljs-keyword">if</span> (p-&gt;adjvex == w)<br>			&#123;<br>				<span class="hljs-keyword">if</span> (p-&gt;nextarc)<br>				&#123;<br>					<span class="hljs-keyword">return</span> p-&gt;nextarc-&gt;adjvex;<br>				&#125;<br>				<span class="hljs-keyword">else</span> <br>				&#123;<br>					<span class="hljs-keyword">break</span>;<br>				&#125;<br>			&#125;<br>			<span class="hljs-keyword">else</span><br>			&#123;<br>				p = p-&gt;nextarc;<br>				<span class="hljs-keyword">continue</span>;<br>			&#125;<br>		&#125;<br>		<span class="hljs-keyword">return</span> <span class="hljs-number">-1</span>;<br>	&#125;<br>	<span class="hljs-keyword">else</span><br>	&#123;<br>		<span class="hljs-keyword">return</span> <span class="hljs-number">-1</span>;<br>	&#125;<br>&#125;<br><br><br><span class="hljs-function">Queue* <span class="hljs-title">Initial</span><span class="hljs-params">()</span></span><br><span class="hljs-function"></span>&#123;<br>	Queue* que = (Queue*)<span class="hljs-built_in">malloc</span>(<span class="hljs-keyword">sizeof</span>(Queue));<br>	<span class="hljs-keyword">if</span> (que)<br>	&#123;<br>		que-&gt;front = que-&gt;rear = <span class="hljs-number">0</span>;<br>		que-&gt;base = (<span class="hljs-keyword">int</span>*)<span class="hljs-built_in">malloc</span>(<span class="hljs-keyword">sizeof</span>(<span class="hljs-keyword">int</span>));<br>		<span class="hljs-keyword">if</span> (!que-&gt;base) &#123; <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;ERROR!&quot;</span>); &#125;<br>		<span class="hljs-keyword">return</span> que;<br>	&#125;<br>	<span class="hljs-keyword">else</span><br>	&#123;<br>		<span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Error&quot;</span>);<br>	&#125;<br>&#125;<br><br><br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">DeQueue</span><span class="hljs-params">(Queue* que)</span></span><br><span class="hljs-function"></span>&#123;<br>	<span class="hljs-keyword">int</span> e;<br>	<span class="hljs-keyword">if</span> (que-&gt;front == que-&gt;rear) <br>	&#123; <br>		<span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Queue is empty.\n&quot;</span>); <br>		<span class="hljs-keyword">return</span> <span class="hljs-number">-1</span>;<br>	&#125;<br>	<span class="hljs-keyword">else</span> <br>	&#123;<br>		e = que-&gt;base[que-&gt;front];<br>		que-&gt;front = (que-&gt;front + <span class="hljs-number">1</span>) % MAXSIZE;<br>		<span class="hljs-keyword">return</span> e;<br>	&#125;<br>&#125;<br><br><br><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">EnQueue</span><span class="hljs-params">(Queue* que, <span class="hljs-keyword">int</span> v)</span></span><br><span class="hljs-function"></span>&#123;<br>	<span class="hljs-keyword">if</span> ((que-&gt;rear + <span class="hljs-number">1</span>) % MAXSIZE == que-&gt;front) &#123; <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Queue is full. Fail to insert.\n&quot;</span>); &#125;<br>	<span class="hljs-keyword">else</span> &#123;<br>		que-&gt;base[que-&gt;rear] = v;<br>		que-&gt;rear = (que-&gt;rear + <span class="hljs-number">1</span>) % MAXSIZE;  <span class="hljs-comment">// Make queue a circle.</span><br>	&#125;<br>&#125;<br><br><br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">QueueEmpty</span><span class="hljs-params">(Queue* que)</span></span><br><span class="hljs-function"></span>&#123;<br>	<span class="hljs-keyword">if</span> (que-&gt;front == que-&gt;rear) &#123; <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>; &#125;<br>	<span class="hljs-keyword">else</span> &#123; <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>; &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>主函数部分：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span><br><span class="hljs-function"></span>&#123;<br>	AMGraph* amg = (AMGraph*)<span class="hljs-built_in">malloc</span>(<span class="hljs-keyword">sizeof</span>(AMGraph));<br>	ALGraph* alg = (ALGraph*)<span class="hljs-built_in">malloc</span>(<span class="hljs-keyword">sizeof</span>(ALGraph));<br>	<span class="hljs-keyword">if</span> (amg)<br>	&#123;<br>		CreatUDN(amg);<br>		<span class="hljs-keyword">int</span>* visited1 = (<span class="hljs-keyword">int</span>*)<span class="hljs-built_in">malloc</span>(<span class="hljs-keyword">sizeof</span>(<span class="hljs-keyword">int</span>));<br>		<span class="hljs-keyword">char</span> v, a;<br>		<span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Start position: \n&quot;</span>);<br>		scanf_s(<span class="hljs-string">&quot;%c&quot;</span>, &amp;v, <span class="hljs-number">1</span>);<br>		a = getchar();<br>		<span class="hljs-keyword">int</span> u = LocateVex(amg, v);<br>		DFS(amg, visited1, u);<br>		<span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;\n&quot;</span>);<br>	&#125;<br>	<span class="hljs-keyword">if</span> (alg)<br>	&#123;<br>		CreatUDN2(alg);<br>		<span class="hljs-keyword">int</span>* visited2 = (<span class="hljs-keyword">int</span>*)<span class="hljs-built_in">malloc</span>(<span class="hljs-keyword">sizeof</span>(<span class="hljs-keyword">int</span>));<br>		<span class="hljs-keyword">char</span> v, a;<br>		<span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;start position: \n&quot;</span>);<br>		scanf_s(<span class="hljs-string">&quot;%c&quot;</span>, &amp;v, <span class="hljs-number">1</span>);<br>		a = getchar();<br>		<span class="hljs-keyword">int</span> u = LocateVex2(alg, v);<br>		BFS(alg, visited2, u);<br>	&#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h2 id="2-改进与反思"><a href="#2-改进与反思" class="headerlink" title="2.改进与反思"></a>2.改进与反思</h2><p>不知何时free掉分配的内存。。</p>
+
+      </section>
+      <section class="extra">
+        
+          <ul class="copyright">
+  
+    <li><strong>本文作者：</strong>Guo tianyu</li>
+    <li><strong>本文链接：</strong><a href="https://guotianyu-2020.github.io/2021/08/28/%E5%9B%BE%E7%9A%84C%E8%AF%AD%E8%A8%80%E5%AE%9E%E7%8E%B0/index.html" title="https:&#x2F;&#x2F;guotianyu-2020.github.io&#x2F;2021&#x2F;08&#x2F;28&#x2F;%E5%9B%BE%E7%9A%84C%E8%AF%AD%E8%A8%80%E5%AE%9E%E7%8E%B0&#x2F;index.html">https:&#x2F;&#x2F;guotianyu-2020.github.io&#x2F;2021&#x2F;08&#x2F;28&#x2F;%E5%9B%BE%E7%9A%84C%E8%AF%AD%E8%A8%80%E5%AE%9E%E7%8E%B0&#x2F;index.html</a></li>
+    <li><strong>版权声明：</strong>本博客所有文章均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" title="BY-NC-SA" target="_blank" rel="noopener">BY-NC-SA</a> 许可协议，转载请注明出处！</li>
+  
+</ul>
+        
+        
+        
+  <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%9B%BE/" rel="tag">图</a></li></ul> 
+
+        
+  <nav class="nav">
+    <a></a>
+    <a href="/2021/08/15/%E5%93%88%E5%A4%AB%E6%9B%BC%E6%A0%91%E7%9A%84C%E8%AF%AD%E8%A8%80%E5%AE%9E%E7%8E%B0/">哈夫曼树的C语言实现<i class="iconfont iconright"></i></a>
+  </nav>
+
+      </section>
+      
+        <section class="comments">
+  
+    <div class="btn" id="comments-btn">查看评论</div>
+  
+  
+<div id="valine"></div>
+<script defer src="//unpkg.com/valine/dist/Valine.min.js"></script>
+<script>
+  window.onload = function () {
+    var loadValine = function () {
+      new Valine({
+        el: '#valine',
+        app_id: "4fP3aGTwMx0Tjqz6IJp8j4J3-gzGzoHsz",
+        app_key: "V2Y9wAQaMEECMEteyKxvRmwL",
+        placeholder: "雁过留痕",
+        avatar: "mp",
+        pageSize: "10",
+        lang: "zh-CN",
+      });
+    }
+    if ( true ) {
+      $("#comments-btn").on("click", function () {
+        $(this).hide();
+        loadValine();
+      });
+    } else {
+      loadValine();
+    }
+  };
+</script>
+
+</section>
+      
+    </section>
+  </div>
+</article></div>
+      <div class="col-xl-3">
+        
+          
+  <aside class="toc-wrap">
+    <h3 class="toc-title">文章目录：</h3>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E4%BB%A3%E7%A0%81%E9%83%A8%E5%88%86"><span class="toc-text">1.代码部分</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-1%E5%9B%BE%E7%9A%84%E5%88%9B%E5%BB%BA"><span class="toc-text">1.1图的创建</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-2%E5%9B%BE%E7%9A%84%E9%81%8D%E5%8E%86"><span class="toc-text">1.2图的遍历</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E6%94%B9%E8%BF%9B%E4%B8%8E%E5%8F%8D%E6%80%9D"><span class="toc-text">2.改进与反思</span></a></li></ol>
+  </aside>
+
+        
+      </div>
+    </div>
+  </div>
+</main>
+  
+
+<footer class="footer">
+  <div class="footer-social"><a 
+        href="tencent://message/?Menu=yes&uin=2519478975 "
+        target="_blank"
+        class="footer-social-item"
+        onMouseOver="this.style.color= '#12B7F5'" 
+        onMouseOut="this.style.color='#33333D'">
+          <i class="iconfont  iconQQ "></i>
+      </a><a 
+        href="https://github.com/Guotianyu-2020 "
+        target="_blank"
+        class="footer-social-item"
+        onMouseOver="this.style.color= '#9f7be1'" 
+        onMouseOut="this.style.color='#33333D'">
+          <i class="iconfont  icongithub-fill "></i>
+      </a><a 
+        href="mailto:2519478975@qq.com "
+        target="_blank"
+        class="footer-social-item"
+        onMouseOver="this.style.color=#FF3B00" 
+        onMouseOut="this.style.color='#33333D'">
+          <i class="iconfont  iconmail"></i>
+      </a></div>
+  
+    <div class="footer-copyright"><p>Powered by <a target="_blank" href="https://hexo.io">Hexo</a>  |  Theme - <a target="_blank" href="https://github.com/izhaoo/hexo-theme-zhaoo">zhaoo</a></p></div>
+  
+</footer>
+  
+      <div class="fab fab-plus">
+    <i class="iconfont iconplus"></i>
+  </div>
+  
+  
+  <div class="fab fab-up">
+    <i class="iconfont iconcaret-up"></i>
+  </div>
+  
+  
+  
+    
+<script src="/js/color-mode.js"></script>
+
+  
+  
+</body>
+
+<script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+
+
+
+  
+<script src="https://cdn.bootcdn.net/ajax/libs/jquery.lazyload/1.9.1/jquery.lazyload.min.js"></script>
+
+
+
+
+  
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js"></script>
+
+
+
+
+
+
+  
+<script src="https://cdn.bootcdn.net/ajax/libs/jquery.qrcode/1.0/jquery.qrcode.min.js"></script>
+
+
+
+
+<script src="/js/utils.js"></script>
+<script src="/js/script.js"></script>
+
+
+
+  <script>
+  $.getScript("//cdn.jsdelivr.net/npm/leancloud-storage@4.1.0/dist/av-min.js", () => {
+
+    AV.init({
+      appId: '4fP3aGTwMx0Tjqz6IJp8j4J3-gzGzoHsz',
+      appKey: 'V2Y9wAQaMEECMEteyKxvRmwL',
+      serverURLs: 'https://leancloud.cn/',
+    });
+
+    const showCount = (Counter) => {
+      const asyncLimit = new AsyncLimit(2);
+      $(".leancloud").each(async (e) => {
+        const url = $(".leancloud").eq(e).attr('id').trim();
+        const query = new AV.Query("Counter");
+        query.equalTo("words", url);
+        let count = await asyncLimit.run(() => query.count());
+        $(".leancloud").eq(e).text(count ? count : '--');
+      });
+    }
+
+    const addCount = (Counter) => {
+      const url = $(".leancloud").length === 1 ? $(".leancloud").attr('id').trim() : 'https://guotianyu-2020.github.io';
+      var query = new Counter;
+      query.save({
+        words: url
+      });
+    }
+
+    $(function () {
+      const Counter = AV.Object.extend("Counter");
+      addCount(Counter);
+      showCount(Counter);
+    });
+
+  });
+</script>
+
+
+
+
+
+  <script>
+    (function () {
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+      } else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+      }
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+</html>
