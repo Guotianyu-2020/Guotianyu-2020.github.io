@@ -1,0 +1,433 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" color-mode=light>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>排序方法C++实现 - 小郭的个人博客</title>
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="google" content="notranslate" />
+  
+  <meta name="description" content="
+本文实现了多种排序方法，包括直接插入排序、折半插入排...">
+  <meta name="author" content="Guo tianyu">
+  <link rel="icon" href="/images/icons/ww.png" type="image/png" sizes="16x16">
+  <link rel="icon" href="/images/icons/ww.png" type="image/png" sizes="32x32">
+  <link rel="apple-touch-icon" href="/images/icons/ww.png" sizes="180x180">
+  <meta rel="mask-icon" href="/images/icons/ww.png" color="#333333">
+  
+    <meta rel="msapplication-TileImage" content="/images/icons/ww.png">
+    <meta rel="msapplication-TileColor" content="#000000">
+  
+
+  
+<link rel="stylesheet" href="/css/style.css">
+
+
+  
+    
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1445822_r673sha78lq.css">
+
+  
+
+  
+    
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css">
+
+  
+
+  
+    
+      
+        
+        
+<link rel="stylesheet" href="https://cdn.bootcss.com/highlight.js/9.18.1/styles/xcode.min.css" name="highlight-style" mode="light">
+
+      
+        
+        
+<link rel="stylesheet" href="https://cdn.bootcss.com/highlight.js/9.18.1/styles/solarized-dark.min.css" name="highlight-style" mode="dark">
+
+      
+  
+
+  <script>
+    var CONFIG = window.CONFIG || {};
+    var ZHAOO = window.ZHAOO || {};
+    CONFIG = {
+      isHome: false,
+      fancybox: true,
+      pjax: false,
+      lazyload: {
+        enable: false,
+        only_post: 'false',
+        loading: '[object Object]'
+      },
+      donate: {
+        enable: false,
+        alipay: 'https://pic.izhaoo.com/alipay.jpg',
+        wechat: 'https://pic.izhaoo.com/wechat.jpg'
+      },
+      galleries: {
+        enable: false
+      },
+      fab: {
+        enable: true,
+        always_show: false
+      },
+      carrier: {
+        enable: true
+      },
+      daovoice: {
+        enable: false
+      },
+      preview: {
+        background: {
+          default: '',
+          api: ''
+        },
+        motto: {
+          default: '相与枕藉乎舟中，不知东方之既白',
+          typing: true,
+          api: '',
+          data_contents: '["data","content"]'
+        },
+      },
+      qrcode: {
+        enable: true,
+        type: 'image',
+        image: '/images/theme/wechat.jpg',
+      },
+      toc: {
+        enable: true
+      },
+      scrollbar: {
+        type: 'default'
+      },
+      notification: {
+        enable: false,
+        delay: 4500,
+        list: '',
+        page_white_list: '',
+        page_black_list: ''
+      },
+      search: {
+        enable: false,
+        path: ''
+      }
+    }
+  </script>
+
+  
+
+  
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body class="lock-screen">
+  <div class="loading"></div>
+  
+    
+
+
+  <nav class="navbar">
+    <div class="left">
+      
+        <i class="iconfont iconhome j-navbar-back-home"></i>
+      
+      
+        <i class="iconfont iconqrcode j-navbar-qrcode"></i>
+      
+      
+        <i class="iconfont iconmoono" id="color-toggle" color-toggle="light"></i>
+      
+      
+    </div>
+    <div class="center">排序方法C++实现</div>
+    <div class="right">
+      <i class="iconfont iconmenu j-navbar-menu"></i>
+    </div>
+    
+      <div id="qrcode-navbar"></div>
+    
+  </nav>
+
+  
+  
+
+<nav class="menu">
+  <div class="menu-container">
+    <div class="menu-close">
+      <i class="iconfont iconbaseline-close-px"></i>
+    </div>
+    <ul class="menu-content"><li class="menu-item">
+        <a href="/ " class="underline "> 首页</a>
+      </li><li class="menu-item">
+        <a href="/galleries/ " class="underline "> 摄影</a>
+      </li><li class="menu-item">
+        <a href="/archives/ " class="underline "> 归档</a>
+      </li><li class="menu-item">
+        <a href="/tags/ " class="underline "> 标签</a>
+      </li><li class="menu-item">
+        <a href="/categories/ " class="underline "> 分类</a>
+      </li><li class="menu-item">
+        <a href="/about/ " class="underline "> 关于</a>
+      </li></ul>
+    
+      <div class="menu-copyright"><p>Powered by <a target="_blank" href="https://hexo.io">Hexo</a>  |  Theme - <a target="_blank" href="https://github.com/izhaoo/hexo-theme-zhaoo">zhaoo</a></p></div>
+    
+  </div>
+</nav>
+  <main id="main">
+  <div class="article-wrap">
+    <div class="row container">
+      <div class="col-xl-3"></div>
+      <div class="col-xl-6"><article class="article">
+  <div class="wrap">
+    <section class="head">
+  <img src="/images/post/15.jpg" draggable="false">
+  <div class="head-mask">
+    <h1 class="head-title">排序方法C++实现</h1>
+    <div class="head-info">
+      <span class="post-info-item"><i class="iconfont iconcalendar"></i>九月 15, 2021</span>
+      
+        <span class="post-info-item">
+          <i class="iconfont iconeye"></i><span id="/2021/09/15/%E6%8E%92%E5%BA%8F%E6%96%B9%E6%B3%95C++%E5%AE%9E%E7%8E%B0/" class="leancloud" data-flag-title="排序方法C++实现"></span>
+        </span>
+      
+      <span class="post-info-item"><i class="iconfont iconfont-size"></i>8428</span>
+    </div>
+  </div>
+</section>
+    <section class="main">
+      <section class="content">
+        <blockquote>
+<p>本文实现了多种排序方法，包括直接插入排序、折半插入排序、希尔排序、冒泡排序、快速排序、堆排序，并且对每种排序方法进行了计时比较。</p>
+</blockquote>
+<h2 id="1-代码"><a href="#1-代码" class="headerlink" title="1.代码"></a>1.代码</h2><p>主程序：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br><span class="line">247</span><br><span class="line">248</span><br><span class="line">249</span><br><span class="line">250</span><br><span class="line">251</span><br><span class="line">252</span><br><span class="line">253</span><br><span class="line">254</span><br><span class="line">255</span><br><span class="line">256</span><br><span class="line">257</span><br><span class="line">258</span><br><span class="line">259</span><br><span class="line">260</span><br><span class="line">261</span><br><span class="line">262</span><br><span class="line">263</span><br><span class="line">264</span><br><span class="line">265</span><br><span class="line">266</span><br><span class="line">267</span><br><span class="line">268</span><br><span class="line">269</span><br><span class="line">270</span><br><span class="line">271</span><br><span class="line">272</span><br><span class="line">273</span><br><span class="line">274</span><br><span class="line">275</span><br><span class="line">276</span><br><span class="line">277</span><br><span class="line">278</span><br><span class="line">279</span><br><span class="line">280</span><br><span class="line">281</span><br><span class="line">282</span><br><span class="line">283</span><br><span class="line">284</span><br><span class="line">285</span><br><span class="line">286</span><br><span class="line">287</span><br><span class="line">288</span><br><span class="line">289</span><br><span class="line">290</span><br><span class="line">291</span><br><span class="line">292</span><br><span class="line">293</span><br><span class="line">294</span><br><span class="line">295</span><br><span class="line">296</span><br><span class="line">297</span><br><span class="line">298</span><br><span class="line">299</span><br><span class="line">300</span><br><span class="line">301</span><br><span class="line">302</span><br><span class="line">303</span><br><span class="line">304</span><br><span class="line">305</span><br><span class="line">306</span><br><span class="line">307</span><br><span class="line">308</span><br><span class="line">309</span><br><span class="line">310</span><br><span class="line">311</span><br><span class="line">312</span><br><span class="line">313</span><br><span class="line">314</span><br><span class="line">315</span><br><span class="line">316</span><br><span class="line">317</span><br><span class="line">318</span><br><span class="line">319</span><br><span class="line">320</span><br><span class="line">321</span><br><span class="line">322</span><br><span class="line">323</span><br><span class="line">324</span><br><span class="line">325</span><br><span class="line">326</span><br><span class="line">327</span><br><span class="line">328</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span><span class="hljs-meta-string">&lt;iostream&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span><span class="hljs-meta-string">&lt;string&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span><span class="hljs-meta-string">&lt;cstdlib&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span><span class="hljs-meta-string">&lt;ctime&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span><span class="hljs-meta-string">&lt;math.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span><span class="hljs-meta-string">&quot;head.h&quot;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> randon(x) rand()%(x)</span><br><span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;<br><br><br><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">ShowSql</span><span class="hljs-params">(SqList&amp; q)</span></span><br><span class="hljs-function"></span>&#123;<br>	<span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">1</span>; i &lt;= q.length; i++)<br>	&#123;<br>		cout &lt;&lt; q.r[i].key &lt;&lt; <span class="hljs-string">&#x27; &#x27;</span>;<br>	&#125;<br>	cout &lt;&lt; endl;<br>&#125;<br><br><br><span class="hljs-function">SqList <span class="hljs-title">Initial</span><span class="hljs-params">(SqList&amp; q)</span></span><br><span class="hljs-function"></span>&#123;<br>	<span class="hljs-built_in">srand</span>((<span class="hljs-keyword">int</span>)<span class="hljs-built_in">time</span>(<span class="hljs-number">0</span>));  <span class="hljs-comment">// Use system time to creat a random seed.</span><br>	q.length = <span class="hljs-number">0</span>;<br>	q.r[<span class="hljs-number">0</span>].key = <span class="hljs-number">0</span>;<br>	<span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">1</span>; i &lt; <span class="hljs-number">80</span>; i++)<br>	&#123;<br>		q.r[i].key = <span class="hljs-built_in">randon</span>(<span class="hljs-number">100</span>);<br>		q.length++;<br>	&#125;<br>	<span class="hljs-comment">//cout &lt;&lt; &quot;Generating a random table: &quot;;</span><br>	<span class="hljs-comment">//ShowSql(q);</span><br>	<span class="hljs-keyword">return</span> q;<br>&#125;<br><br><br><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">InsertSort</span><span class="hljs-params">(SqList q)</span></span><br><span class="hljs-function"></span>&#123;<br>	<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>, j = <span class="hljs-number">0</span>;<br>	<span class="hljs-keyword">for</span> (i = <span class="hljs-number">2</span>; i &lt;= q.length; ++i)<br>	&#123;<br>		<span class="hljs-keyword">if</span> (q.r[i].key &lt; q.r[i - <span class="hljs-number">1</span>].key)<br>		&#123;<br>			q.r[<span class="hljs-number">0</span>] = q.r[i];<br>			<span class="hljs-keyword">for</span> (j = i - <span class="hljs-number">1</span>; q.r[<span class="hljs-number">0</span>].key &lt; q.r[j].key; --j)<br>			&#123;<br>				q.r[j + <span class="hljs-number">1</span>] = q.r[j];<br>			&#125;<br>			q.r[j + <span class="hljs-number">1</span>] = q.r[<span class="hljs-number">0</span>];<br>		&#125;<br>		<span class="hljs-keyword">else</span> &#123; <span class="hljs-keyword">continue</span>; &#125;<br>	&#125;<br>	<span class="hljs-comment">//cout &lt;&lt; &quot;Method-&gt;Directly Insert Sort: &quot;;</span><br>	<span class="hljs-comment">//ShowSql(q);</span><br>&#125;<br><br><br><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">BinsertSort</span><span class="hljs-params">(SqList q)</span></span><br><span class="hljs-function"></span>&#123;<br>	<span class="hljs-keyword">int</span> low = <span class="hljs-number">0</span>, high = <span class="hljs-number">0</span>, mid = <span class="hljs-number">0</span>, j = <span class="hljs-number">0</span>;<br>	<span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">2</span>; i &lt;= q.length; ++i)<br>	&#123;<br>		q.r[<span class="hljs-number">0</span>] = q.r[i];<br>		low = <span class="hljs-number">1</span>;<br>		high = i - <span class="hljs-number">1</span>;<br>		<span class="hljs-keyword">while</span> (low &lt;= high)<br>		&#123;<br>			mid = (low + high) / <span class="hljs-number">2</span>;<br>			<span class="hljs-keyword">if</span> (q.r[<span class="hljs-number">0</span>].key &lt; q.r[mid].key) <br>			&#123;<br>				high = mid - <span class="hljs-number">1</span>;<br>			&#125;<br>			<span class="hljs-keyword">else</span><br>			&#123;<br>				low = mid + <span class="hljs-number">1</span>;<br>			&#125;<br>		&#125;<br>		<span class="hljs-keyword">for</span> (j = i - <span class="hljs-number">1</span>; j &gt;= high + <span class="hljs-number">1</span>; --j)<br>		&#123;<br>			q.r[j + <span class="hljs-number">1</span>] = q.r[j];<br>		&#125;<br>		q.r[high + <span class="hljs-number">1</span>] = q.r[<span class="hljs-number">0</span>];<br>	&#125;<br>	<span class="hljs-comment">//cout &lt;&lt; &quot;Method-&gt;Binary Insert Sort: &quot;;</span><br>	<span class="hljs-comment">//ShowSql(q);</span><br>&#125;<br><br><br><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">ShellSort</span><span class="hljs-params">(SqList q)</span></span><br><span class="hljs-function"></span>&#123;<br>	SqList sq = q; <span class="hljs-comment">// Try using q directly.</span><br>	<span class="hljs-keyword">int</span> dk[<span class="hljs-number">5</span>] = &#123;<span class="hljs-number">31</span>, <span class="hljs-number">15</span>, <span class="hljs-number">7</span>, <span class="hljs-number">3</span>, <span class="hljs-number">1</span>&#125;;<br>	<span class="hljs-comment">//for (int i = 0; i &lt;= 4; i++)  // Initialize dk with value 9, 7, 5, 3, 1.</span><br>	<span class="hljs-comment">//&#123;</span><br>	<span class="hljs-comment">//	dk[i] = 16 - pow(2, i);</span><br>	<span class="hljs-comment">//&#125;</span><br>	<span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> k = <span class="hljs-number">0</span>; k &lt;= <span class="hljs-number">4</span>; k++)<br>	&#123;<br>		<span class="hljs-built_in">ShellInsert</span>(sq, dk[k]);<br>	&#125;<br>	<span class="hljs-comment">//cout &lt;&lt; &quot;Method-&gt;Shell Sort: &quot;;</span><br>	<span class="hljs-comment">//ShowSql(sq);</span><br>&#125;<br><br><br><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">ShellInsert</span><span class="hljs-params">(SqList&amp; q, <span class="hljs-keyword">int</span> dk)</span></span><br><span class="hljs-function"></span>&#123;<br>	<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>, j = <span class="hljs-number">0</span>;<br>	<span class="hljs-keyword">for</span> (i = dk + <span class="hljs-number">1</span>; i &lt;= q.length; ++i)<br>	&#123;<br>		<span class="hljs-keyword">if</span> (q.r[i].key &lt; q.r[i - dk].key)<br>		&#123;<br>			q.r[<span class="hljs-number">0</span>] = q.r[i];<br>			<span class="hljs-keyword">for</span> (j = i - dk; j &gt; <span class="hljs-number">0</span> &amp;&amp; (q.r[<span class="hljs-number">0</span>].key &lt; q.r[j].key); j -= dk)<br>			&#123;<br>				q.r[j + dk] = q.r[j];<br>			&#125;<br>			q.r[j + dk] = q.r[<span class="hljs-number">0</span>];<br>		&#125;<br>	&#125;<br>&#125;<br><br><br><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">bubble_sort</span><span class="hljs-params">(SqList q)</span></span><br><span class="hljs-function"></span>&#123;<br>	<span class="hljs-keyword">int</span> m, j, flag = <span class="hljs-number">1</span>;<br>	RecType x;<br>	<span class="hljs-keyword">for</span> (m = <span class="hljs-number">1</span>; (m &lt;= q.length - <span class="hljs-number">1</span>) &amp;&amp; (flag == <span class="hljs-number">1</span>); m++)<br>	&#123;<br>		<span class="hljs-keyword">for</span> (j = <span class="hljs-number">1</span>; j &lt;= q.length - m; j++)<br>		&#123;<br>			<span class="hljs-keyword">if</span> (q.r[j].key &gt; q.r[j + <span class="hljs-number">1</span>].key)<br>			&#123;<br>				x = q.r[j];<br>				q.r[j] = q.r[j + <span class="hljs-number">1</span>];<br>				q.r[j + <span class="hljs-number">1</span>] = x;<br>			&#125;<br>		&#125;<br>	&#125;<br>	<span class="hljs-comment">//cout &lt;&lt; &quot;Method-&gt;Bubble Sort: &quot;;</span><br>	<span class="hljs-comment">//ShowSql(q);</span><br>&#125;<br><br><br><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">QuickSort</span><span class="hljs-params">(SqList q, <span class="hljs-keyword">int</span> low, <span class="hljs-keyword">int</span> high)</span></span><br><span class="hljs-function"></span>&#123;<br>	SqList sq = q;<br>	<span class="hljs-built_in">Qsort</span>(sq, low, high);<br>	<span class="hljs-comment">//cout &lt;&lt; &quot;Method-&gt;Quick Sort: &quot;;</span><br>	<span class="hljs-comment">//ShowSql(sq);</span><br>&#125;<br><br><br><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">Qsort</span><span class="hljs-params">(SqList&amp; q, <span class="hljs-keyword">int</span> low, <span class="hljs-keyword">int</span> high)</span></span><br><span class="hljs-function"></span>&#123;<br>	<span class="hljs-keyword">int</span> pivotloc;<br>	<span class="hljs-keyword">if</span> (low &lt; high)<br>	&#123;<br>		pivotloc = <span class="hljs-built_in">Partition</span>(q, low, high);<br>		<span class="hljs-built_in">Qsort</span>(q, low, pivotloc - <span class="hljs-number">1</span>);<br>		<span class="hljs-built_in">Qsort</span>(q, pivotloc + <span class="hljs-number">1</span>, high);<br>	&#125;<br>&#125;<br><br><br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">Partition</span><span class="hljs-params">(SqList&amp; q, <span class="hljs-keyword">int</span> low, <span class="hljs-keyword">int</span> high)</span></span><br><span class="hljs-function"></span>&#123;<br>	q.r[<span class="hljs-number">0</span>] = q.r[low];<br>	<span class="hljs-keyword">int</span> pivotkey = q.r[low].key;<br>	<span class="hljs-keyword">while</span> (low &lt; high)<br>	&#123;<br>		<span class="hljs-keyword">while</span> (low &lt; high &amp;&amp; q.r[high].key &gt;= pivotkey)<br>		&#123;<br>			--high;<br>		&#125;<br>		q.r[low] = q.r[high];<br>		<span class="hljs-keyword">while</span> (low &lt; high &amp;&amp; q.r[low].key &lt;= pivotkey)<br>		&#123;<br>			++low;<br>		&#125;<br>		q.r[high] = q.r[low];<br>	&#125;<br>	q.r[low] = q.r[<span class="hljs-number">0</span>];<br>	<span class="hljs-keyword">return</span> low;<br>&#125;<br><br><br><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">SelectSort</span><span class="hljs-params">(SqList q)</span></span><br><span class="hljs-function"></span>&#123;<br>	RecType x;<br>	<span class="hljs-keyword">int</span> k = <span class="hljs-number">0</span>, i = <span class="hljs-number">1</span>, j = <span class="hljs-number">0</span>;<br>	<span class="hljs-keyword">for</span> (i = <span class="hljs-number">1</span>; i &lt; q.length; ++i)<br>	&#123;<br>		k = i;<br>		<span class="hljs-keyword">for</span> (j = i + <span class="hljs-number">1</span>; j &lt;= q.length; j++)<br>		&#123;<br>			<span class="hljs-keyword">if</span> (q.r[j].key &lt; q.r[k].key)<br>			&#123;<br>				k = j;<br>			&#125;<br>		&#125;<br>		<span class="hljs-keyword">if</span> (k != i)<br>		&#123;<br>			x = q.r[i];<br>			q.r[i] = q.r[k];<br>			q.r[k] = x;<br>		&#125;<br>	&#125;<br>	<span class="hljs-comment">//cout &lt;&lt; &quot;Method-&gt;Select Sort: &quot;;</span><br>	<span class="hljs-comment">//ShowSql(q);</span><br>&#125;<br><br><br><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">HeapAdjust</span><span class="hljs-params">(SqList&amp; q, <span class="hljs-keyword">int</span> s, <span class="hljs-keyword">int</span> m)</span></span><br><span class="hljs-function"></span>&#123;<br>	<span class="hljs-keyword">int</span> rc = q.r[s].key;<br>	<span class="hljs-keyword">int</span> j = <span class="hljs-number">0</span>;<br>	<span class="hljs-keyword">for</span> (j = <span class="hljs-number">2</span> * s; j &lt;= m; j *= <span class="hljs-number">2</span>)<br>	&#123;<br>		<span class="hljs-keyword">if</span> (j &lt; m &amp;&amp; (q.r[j].key &lt; q.r[j + <span class="hljs-number">1</span>].key))<br>		&#123;<br>			j++;<br>		&#125;<br>		<span class="hljs-keyword">if</span> (rc &gt;= q.r[j].key) &#123; <span class="hljs-keyword">break</span>; &#125;<br>		q.r[s] = q.r[j];<br>		s = j;<br>	&#125;<br>	q.r[s].key = rc;<br>&#125;<br><br><br><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">HeapSort</span><span class="hljs-params">(SqList q)</span></span><br><span class="hljs-function"></span>&#123;<br>	SqList qs = q;<br>	<span class="hljs-keyword">int</span> n = qs.length;<br>	<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>;<br>	<span class="hljs-keyword">for</span> (i = n / <span class="hljs-number">2</span>; i &gt;= <span class="hljs-number">1</span>; i--)<br>	&#123;<br>		<span class="hljs-built_in">HeapAdjust</span>(qs, i, n);<br>	&#125;<br>	<span class="hljs-keyword">for</span> (i = n; i &gt; <span class="hljs-number">1</span>; i--)<br>	&#123;<br>		<span class="hljs-built_in">swap</span>(&amp;(qs.r[<span class="hljs-number">1</span>].key), &amp;(qs.r[i].key));<br>		<span class="hljs-built_in">HeapAdjust</span>(qs, <span class="hljs-number">1</span>, i - <span class="hljs-number">1</span>);<br>	&#125;<br>	<span class="hljs-comment">//cout &lt;&lt; &quot;Method-&gt;Heap Sort: &quot;;</span><br>	<span class="hljs-comment">//ShowSql(qs);</span><br>&#125;<br><br><br><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">swap</span><span class="hljs-params">(<span class="hljs-keyword">int</span>* a, <span class="hljs-keyword">int</span>* b)</span></span><br><span class="hljs-function"></span>&#123;<br>	<span class="hljs-keyword">int</span> x;<br>	x = *b;<br>	*b = *a;<br>	*a = x;<br>&#125;<br><br><br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span><br><span class="hljs-function"></span>&#123;<br>	SqList* sql = <span class="hljs-keyword">new</span> SqList;<br>	<span class="hljs-keyword">clock_t</span> start, end, rst;<br>	<span class="hljs-keyword">clock_t</span> sum1 = <span class="hljs-number">0</span>, sum2 = <span class="hljs-number">0</span>, sum3 = <span class="hljs-number">0</span>, sum4 = <span class="hljs-number">0</span>, sum5 = <span class="hljs-number">0</span>, sum6 = <span class="hljs-number">0</span>, sum7 = <span class="hljs-number">0</span>;<br>	<span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt;=<span class="hljs-number">10</span>; i++)<br>	&#123;<br>		*sql = <span class="hljs-built_in">Initial</span>(*sql);<br>		<span class="hljs-comment">/*1*/</span><br>		start = <span class="hljs-built_in">clock</span>();<br>		<span class="hljs-built_in">InsertSort</span>(*sql);<br>		end = <span class="hljs-built_in">clock</span>();<br>		rst = (end - start);<br>		<span class="hljs-comment">//cout &lt;&lt; &quot;Total time:&quot; &lt;&lt; rst &lt;&lt; &quot;ms&quot; &lt;&lt; endl;</span><br>		sum1 += rst;<br>		<span class="hljs-comment">/*2*/</span><br>		start = <span class="hljs-built_in">clock</span>();<br>		<span class="hljs-built_in">BinsertSort</span>(*sql);<br>		end = <span class="hljs-built_in">clock</span>();<br>		rst = (end - start);<br>		<span class="hljs-comment">//cout &lt;&lt; &quot;Total time:&quot; &lt;&lt; rst &lt;&lt; &quot;ms&quot; &lt;&lt; endl;</span><br>		sum2 += rst;<br>		<span class="hljs-comment">/*3*/</span><br>		start = <span class="hljs-built_in">clock</span>();<br>		<span class="hljs-built_in">ShellSort</span>(*sql);<br>		end = <span class="hljs-built_in">clock</span>();<br>		rst = (end - start);<br>		<span class="hljs-comment">//cout &lt;&lt; &quot;Total time:&quot; &lt;&lt; rst &lt;&lt; &quot;ms&quot; &lt;&lt; endl;</span><br>		sum3 += rst;<br>		<span class="hljs-comment">/*4*/</span><br>		start = <span class="hljs-built_in">clock</span>();<br>		<span class="hljs-built_in">bubble_sort</span>(*sql);<br>		end = <span class="hljs-built_in">clock</span>();<br>		rst = (end - start);<br>		<span class="hljs-comment">//cout &lt;&lt; &quot;Total time:&quot; &lt;&lt; rst &lt;&lt; &quot;ms&quot; &lt;&lt; endl;</span><br>		sum4 += rst;<br>		<span class="hljs-comment">/*5*/</span><br>		start = <span class="hljs-built_in">clock</span>();<br>		<span class="hljs-built_in">QuickSort</span>(*sql, <span class="hljs-number">1</span>, sql-&gt;length);<br>		end = <span class="hljs-built_in">clock</span>();<br>		rst = (end - start);<br>		<span class="hljs-comment">//cout &lt;&lt; &quot;Total time:&quot; &lt;&lt; rst &lt;&lt; &quot;ms&quot; &lt;&lt; endl;</span><br>		sum5 += rst;<br>		<span class="hljs-comment">/*6*/</span><br>		start = <span class="hljs-built_in">clock</span>();<br>		<span class="hljs-built_in">SelectSort</span>(*sql);<br>		end = <span class="hljs-built_in">clock</span>();<br>		rst = (end - start);<br>		<span class="hljs-comment">//cout &lt;&lt; &quot;Total time:&quot; &lt;&lt; rst &lt;&lt; &quot;ms&quot; &lt;&lt; endl;</span><br>		sum6 += rst;<br>		<span class="hljs-comment">/*7*/</span><br>		start = <span class="hljs-built_in">clock</span>();<br>		<span class="hljs-built_in">HeapSort</span>(*sql);<br>		end = <span class="hljs-built_in">clock</span>();<br>		rst = (end - start);<br>		<span class="hljs-comment">//cout &lt;&lt; &quot;Total time:&quot; &lt;&lt; rst &lt;&lt; &quot;ms&quot; &lt;&lt; endl;</span><br>		sum7 += rst;<br>	&#125;<br>	cout &lt;&lt; <span class="hljs-string">&quot;InsertSort: &quot;</span> &lt;&lt; sum1 &lt;&lt; <span class="hljs-string">&quot;ms&quot;</span> &lt;&lt; endl;<br>	cout &lt;&lt; <span class="hljs-string">&quot;BinsertSort: &quot;</span> &lt;&lt; sum2 &lt;&lt; <span class="hljs-string">&quot;ms&quot;</span> &lt;&lt; endl;<br>	cout &lt;&lt; <span class="hljs-string">&quot;ShellSort: &quot;</span> &lt;&lt; sum3 &lt;&lt; <span class="hljs-string">&quot;ms&quot;</span> &lt;&lt; endl;<br>	cout &lt;&lt; <span class="hljs-string">&quot;bubble_sort: &quot;</span> &lt;&lt; sum4 &lt;&lt; <span class="hljs-string">&quot;ms&quot;</span> &lt;&lt; endl;<br>	cout &lt;&lt; <span class="hljs-string">&quot;QuickSort: &quot;</span> &lt;&lt; sum5 &lt;&lt; <span class="hljs-string">&quot;ms&quot;</span> &lt;&lt; endl;<br>	cout &lt;&lt; <span class="hljs-string">&quot;SelectSort: &quot;</span> &lt;&lt; sum6 &lt;&lt; <span class="hljs-string">&quot;ms&quot;</span> &lt;&lt; endl;<br>	cout &lt;&lt; <span class="hljs-string">&quot;HeaptSort: &quot;</span> &lt;&lt; sum7 &lt;&lt; <span class="hljs-string">&quot;ms&quot;</span> &lt;&lt; endl;<br>	<span class="hljs-keyword">delete</span> sql;<br>	<span class="hljs-built_in">system</span>(<span class="hljs-string">&quot;pause&quot;</span>);<br>	<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>头文件：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-meta">#<span class="hljs-meta-keyword">pragma</span> once</span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> MAXSIZE 80</span><br><span class="hljs-keyword">typedef</span> <span class="hljs-keyword">int</span> keytype;<br><br><br><span class="hljs-keyword">typedef</span> <span class="hljs-class"><span class="hljs-keyword">struct</span> &#123;</span><br>	keytype key;<br>	<span class="hljs-keyword">int</span> otherinfo;<br>&#125;RecType;<br><br><br><span class="hljs-keyword">typedef</span> <span class="hljs-class"><span class="hljs-keyword">struct</span> &#123;</span><br>	RecType r[MAXSIZE];<br>	<span class="hljs-keyword">int</span> length;<br>&#125;SqList;<br><br><br><span class="hljs-function">SqList <span class="hljs-title">Initial</span><span class="hljs-params">(SqList&amp; q)</span></span>;<br><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">InsertSort</span><span class="hljs-params">(SqList q)</span></span>;<br><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">ShowSql</span><span class="hljs-params">(SqList&amp; q)</span></span>;<br><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">BinsertSort</span><span class="hljs-params">(SqList q)</span></span>;<br><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">ShellInsert</span><span class="hljs-params">(SqList&amp; sq, <span class="hljs-keyword">int</span> dk)</span></span>;<br><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">ShellSort</span><span class="hljs-params">(SqList q)</span></span>;<br><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">bubble_sort</span><span class="hljs-params">(SqList q)</span></span>;<br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">Partition</span><span class="hljs-params">(SqList&amp; q, <span class="hljs-keyword">int</span> low, <span class="hljs-keyword">int</span> high)</span></span>;<br><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">Qsort</span><span class="hljs-params">(SqList&amp; q, <span class="hljs-keyword">int</span> low, <span class="hljs-keyword">int</span> high)</span></span>;<br><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">QuickSort</span><span class="hljs-params">(SqList q, <span class="hljs-keyword">int</span> low, <span class="hljs-keyword">int</span> high)</span></span>;<br><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">HeapAdjust</span><span class="hljs-params">(SqList&amp; q, <span class="hljs-keyword">int</span> s, <span class="hljs-keyword">int</span> m)</span></span>;<br><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">HeapSort</span><span class="hljs-params">(SqList q)</span></span>;<br><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">swap</span><span class="hljs-params">(<span class="hljs-keyword">int</span>* a, <span class="hljs-keyword">int</span>* b)</span></span>;<br><br></code></pre></td></tr></table></figure>
+
+
+      </section>
+      <section class="extra">
+        
+          <ul class="copyright">
+  
+    <li><strong>本文作者：</strong>Guo tianyu</li>
+    <li><strong>本文链接：</strong><a href="https://guotianyu-2020.github.io/2021/09/15/%E6%8E%92%E5%BA%8F%E6%96%B9%E6%B3%95C++%E5%AE%9E%E7%8E%B0/index.html" title="https:&#x2F;&#x2F;guotianyu-2020.github.io&#x2F;2021&#x2F;09&#x2F;15&#x2F;%E6%8E%92%E5%BA%8F%E6%96%B9%E6%B3%95C++%E5%AE%9E%E7%8E%B0&#x2F;index.html">https:&#x2F;&#x2F;guotianyu-2020.github.io&#x2F;2021&#x2F;09&#x2F;15&#x2F;%E6%8E%92%E5%BA%8F%E6%96%B9%E6%B3%95C++%E5%AE%9E%E7%8E%B0&#x2F;index.html</a></li>
+    <li><strong>版权声明：</strong>本博客所有文章均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" title="BY-NC-SA" target="_blank" rel="noopener">BY-NC-SA</a> 许可协议，转载请注明出处！</li>
+  
+</ul>
+        
+        
+        
+  <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8E%92%E5%BA%8F%E3%80%81%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" rel="tag">排序、数据结构</a></li></ul> 
+
+        
+  <nav class="nav">
+    <a></a>
+    <a href="/2021/08/28/%E5%9B%BE%E7%9A%84C%E8%AF%AD%E8%A8%80%E5%AE%9E%E7%8E%B0/">图的C语言实现<i class="iconfont iconright"></i></a>
+  </nav>
+
+      </section>
+      
+        <section class="comments">
+  
+    <div class="btn" id="comments-btn">查看评论</div>
+  
+  
+<div id="valine"></div>
+<script defer src="//unpkg.com/valine/dist/Valine.min.js"></script>
+<script>
+  window.onload = function () {
+    var loadValine = function () {
+      new Valine({
+        el: '#valine',
+        app_id: "4fP3aGTwMx0Tjqz6IJp8j4J3-gzGzoHsz",
+        app_key: "V2Y9wAQaMEECMEteyKxvRmwL",
+        placeholder: "雁过留痕",
+        avatar: "mp",
+        pageSize: "10",
+        lang: "zh-CN",
+      });
+    }
+    if ( true ) {
+      $("#comments-btn").on("click", function () {
+        $(this).hide();
+        loadValine();
+      });
+    } else {
+      loadValine();
+    }
+  };
+</script>
+
+</section>
+      
+    </section>
+  </div>
+</article></div>
+      <div class="col-xl-3">
+        
+          
+  <aside class="toc-wrap">
+    <h3 class="toc-title">文章目录：</h3>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E4%BB%A3%E7%A0%81"><span class="toc-text">1.代码</span></a></li></ol>
+  </aside>
+
+        
+      </div>
+    </div>
+  </div>
+</main>
+  
+
+<footer class="footer">
+  <div class="footer-social"><a 
+        href="tencent://message/?Menu=yes&uin=2519478975 "
+        target="_blank"
+        class="footer-social-item"
+        onMouseOver="this.style.color= '#12B7F5'" 
+        onMouseOut="this.style.color='#33333D'">
+          <i class="iconfont  iconQQ "></i>
+      </a><a 
+        href="https://github.com/Guotianyu-2020 "
+        target="_blank"
+        class="footer-social-item"
+        onMouseOver="this.style.color= '#9f7be1'" 
+        onMouseOut="this.style.color='#33333D'">
+          <i class="iconfont  icongithub-fill "></i>
+      </a><a 
+        href="mailto:2519478975@qq.com "
+        target="_blank"
+        class="footer-social-item"
+        onMouseOver="this.style.color=#FF3B00" 
+        onMouseOut="this.style.color='#33333D'">
+          <i class="iconfont  iconmail"></i>
+      </a></div>
+  
+    <div class="footer-copyright"><p>Powered by <a target="_blank" href="https://hexo.io">Hexo</a>  |  Theme - <a target="_blank" href="https://github.com/izhaoo/hexo-theme-zhaoo">zhaoo</a></p></div>
+  
+</footer>
+  
+      <div class="fab fab-plus">
+    <i class="iconfont iconplus"></i>
+  </div>
+  
+  
+  <div class="fab fab-up">
+    <i class="iconfont iconcaret-up"></i>
+  </div>
+  
+  
+  
+    
+<script src="/js/color-mode.js"></script>
+
+  
+  
+</body>
+
+<script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+
+
+
+  
+<script src="https://cdn.bootcdn.net/ajax/libs/jquery.lazyload/1.9.1/jquery.lazyload.min.js"></script>
+
+
+
+
+  
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js"></script>
+
+
+
+
+
+
+  
+<script src="https://cdn.bootcdn.net/ajax/libs/jquery.qrcode/1.0/jquery.qrcode.min.js"></script>
+
+
+
+
+<script src="/js/utils.js"></script>
+<script src="/js/script.js"></script>
+
+
+
+  <script>
+  $.getScript("//cdn.jsdelivr.net/npm/leancloud-storage@4.1.0/dist/av-min.js", () => {
+
+    AV.init({
+      appId: '4fP3aGTwMx0Tjqz6IJp8j4J3-gzGzoHsz',
+      appKey: 'V2Y9wAQaMEECMEteyKxvRmwL',
+      serverURLs: 'https://leancloud.cn/',
+    });
+
+    const showCount = (Counter) => {
+      const asyncLimit = new AsyncLimit(2);
+      $(".leancloud").each(async (e) => {
+        const url = $(".leancloud").eq(e).attr('id').trim();
+        const query = new AV.Query("Counter");
+        query.equalTo("words", url);
+        let count = await asyncLimit.run(() => query.count());
+        $(".leancloud").eq(e).text(count ? count : '--');
+      });
+    }
+
+    const addCount = (Counter) => {
+      const url = $(".leancloud").length === 1 ? $(".leancloud").attr('id').trim() : 'https://guotianyu-2020.github.io';
+      var query = new Counter;
+      query.save({
+        words: url
+      });
+    }
+
+    $(function () {
+      const Counter = AV.Object.extend("Counter");
+      addCount(Counter);
+      showCount(Counter);
+    });
+
+  });
+</script>
+
+
+
+
+
+  <script>
+    (function () {
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+      } else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+      }
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+</html>
